@@ -30,20 +30,27 @@ const CustomTextInput = ({
   return (
     <View
       style={{
-        marginBottom: "5%",
+        flexGrow: 1,
       }}
     >
-      {errorMessage && (
-        <CustomText
-          style={{
-            color: "red",
-            fontSize: 13,
-            fontFamily: "Nunito_400Regular",
-          }}
-        >
-          {errorMessage}
-        </CustomText>
-      )}
+      <View
+        style={{
+          height: 28,
+          justifyContent: "flex-end",
+        }}
+      >
+        {errorMessage && (
+          <CustomText
+            style={{
+              color: "red",
+              fontSize: 13,
+              fontFamily: "Nunito_400Regular",
+            }}
+          >
+            {errorMessage}
+          </CustomText>
+        )}
+      </View>
       <CustomText>{title}</CustomText>
       <TextInput
         style={{
@@ -63,6 +70,7 @@ const CustomTextInput = ({
         value={value}
         autoCapitalize="none"
         keyboardType={keyboardType ? keyboardType : "default"}
+        scrollEnabled={false}
       />
     </View>
   );

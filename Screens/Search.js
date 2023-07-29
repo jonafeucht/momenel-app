@@ -594,7 +594,9 @@ const Suggestion = ({
         >
           {item.profile_url ? (
             <Image
-              source={{ uri: item.profile_url }}
+              source={{
+                uri: `https://cdn.momenel.com/profiles/${item.profile_url}`,
+              }}
               style={{
                 width: scale(30),
                 height: scale(30),

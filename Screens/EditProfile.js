@@ -150,14 +150,19 @@ const EditProfile = ({ navigation }) => {
   function isValidURL(url) {
     var pattern = new RegExp(
       "^(https?:\\/\\/)?" + // protocol
-        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name and extension
+        "localhost|" + // localhost
+        "(\\d{1,3}\\.){3}\\d{1,3})" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%@_.~+&:]*)*" + // port and path
+        "(\\?[;&a-z\\d%@_.,~+&:=-]*)?" + // query string
         "(\\#[-a-z\\d_]*)?$",
       "i"
     ); // fragment locator
-    return !!pattern.test(url);
+    try {
+      return pattern.test(new URL(url).href);
+    } catch (e) {
+      return !!pattern.test(url);
+    }
   }
 
   const handleUsernameChange = async (text) => {
@@ -355,9 +360,9 @@ const EditProfile = ({ navigation }) => {
       behavior="padding"
       keyboardVerticalOffset={headerHeight}
       style={{
+        flex: 1,
+        justifyContent: "flex-end",
         backgroundColor: "white",
-        height: "100%",
-        width: "100%",
       }}
     >
       {isLoading ? (
@@ -376,6 +381,7 @@ const EditProfile = ({ navigation }) => {
         <ScrollView
           style={{ height: "100%", backgroundColor: "white" }}
           keyboardDismissMode={"on-drag"}
+          contentContainerStyle={{ flexGrow: 1 }}
         >
           {/* profile image */}
           {!imageUri && (
@@ -502,6 +508,7 @@ const EditProfile = ({ navigation }) => {
               multiLine={true}
               errors={Errors}
             />
+
             <CustomTextInput
               title="Link"
               placeholder="https://..."
