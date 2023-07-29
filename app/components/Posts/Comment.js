@@ -102,6 +102,8 @@ const Comment = ({
   commentId,
   handleDelete,
   highlight,
+  onChangeText,
+  textInputRef,
 }) => {
   const route = useRoute();
   const [isLikedS, setisLikedS] = useState(isLiked);
@@ -295,10 +297,50 @@ const Comment = ({
                 {comment}
               </StructuredText>
             </View>
-            <View>
-              <CustomText style={{ color: "#ADADAD", fontSize: 12 }}>
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
+              <CustomText
+                style={{
+                  color: "#ADADAD",
+                  fontSize: 13,
+                  fontFamily: "Nunito_500Medium",
+                }}
+              >
                 {RelativeTime(time)}
               </CustomText>
+              <CustomText
+                style={{
+                  color: "#ADADAD",
+                  fontSize: 12,
+                  fontFamily: "Nunito_400Regular",
+                }}
+              >
+                {" • "}
+              </CustomText>
+              <Pressable
+                onPress={() => {
+                  textInputRef?.current?.focus();
+                  onChangeText("@" + username + " ");
+                }}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <CustomText
+                  style={{
+                    color: "#ADADAD",
+                    fontSize: 13,
+                    fontFamily: "Nunito_700Bold",
+                  }}
+                >
+                  Reply
+                </CustomText>
+              </Pressable>
             </View>
           </View>
         </View>

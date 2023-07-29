@@ -41,6 +41,7 @@ const Comments = ({ route, navigation }) => {
   const userProfileUrl = useBoundStore((state) => state.profile_url);
   const insets = useSafeAreaInsets();
   const [showFooter, setShowFooter] = useState(true);
+  const textInputRef = useRef(null);
 
   useEffect(() => {
     setIsFirst(true);
@@ -233,6 +234,8 @@ const Comments = ({ route, navigation }) => {
           gifUrl={item.gifUrl}
           handleDelete={handleDelete}
           highlight={item.id === comment_id ? true : false}
+          onChangeText={onChangeText}
+          textInputRef={textInputRef}
         />
       );
     },
@@ -377,6 +380,7 @@ const Comments = ({ route, navigation }) => {
               }}
             >
               <TextInput
+                ref={textInputRef}
                 style={{
                   backgroundColor: "#E5E5E5",
                   fontFamily: "Nunito_600SemiBold",
