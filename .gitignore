@@ -14,5 +14,5 @@ web-build/
 ks12990.json
 # macOS
 .DS_Store
-eas.json
-app.json
+# eas.json
+# app.json
