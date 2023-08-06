@@ -1,16 +1,15 @@
 import { Dimensions } from "react-native";
-import Home from "../../Screens/Home";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DiscoverIcon from "../components/icons/DiscoverIcon";
 import HomeIcon from "../components/icons/HomeIcon";
 import TabBarProfileIcon from "../components/TabBarProfileIcon";
-import Header from "../components/Header/Header";
 import NotificationsIcon from "../components/icons/Notifications";
 import PlaceholderScreen from "../components/PlaceholderScreen";
 import Discover from "../../Screens/Discover";
 import Profile from "../../Screens/Profile";
 import Notifications from "../../Screens/Notifications";
+import HomeTabs from "./HomeFeedTopTabNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,12 +33,10 @@ const HomeNavigator = ({ navigation }) => {
     >
       <Tab.Screen
         name="Feed"
-        component={Home}
+        component={HomeTabs}
         options={{
           unmountOnBlur: false,
-          header: () => {
-            return <Header navigation={navigation} />;
-          },
+          headerShown: false,
           tabBarIcon: ({ focused }) => {
             {
               return (
