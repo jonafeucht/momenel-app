@@ -7,9 +7,21 @@ import { useMemo } from "react";
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function HomeTabs() {
+export default function HomeTabs({
+  setHomeFeedRoute,
+  followingRef,
+  forYouRef,
+}) {
   const insets = useSafeAreaInsets();
-  const width = useMemo(() => Dimensions.get("window").width / 4, []);
+  const width = useMemo(() => {
+    console.log(Dimensions.get("window").width);
+    if (Dimensions.get("window").width < 400) {
+      return Dimensions.get("window").width / 3;
+    } else {
+      return Dimensions.get("window").width / 4;
+    }
+  }, []);
+
   return (
     <Tab.Navigator
       initialRouteName="ForYou"
@@ -31,12 +43,27 @@ export default function HomeTabs() {
     >
       <Tab.Screen
         name="ForYou"
-        component={ForYou}
         options={{
           title: "For You",
         }}
-      />
-      <Tab.Screen name="Home" component={Home} />
+        listeners={{
+          focus: () => {
+            setHomeFeedRoute("ForYou");
+          },
+        }}
+      >
+        {(props) => <ForYou {...props} forYouRef={forYouRef} />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Following"
+        listeners={{
+          focus: () => {
+            setHomeFeedRoute("Following");
+          },
+        }}
+      >
+        {(props) => <Home {...props} followingRef={followingRef} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }

@@ -10,17 +10,36 @@ import Discover from "../../Screens/Discover";
 import Profile from "../../Screens/Profile";
 import Notifications from "../../Screens/Notifications";
 import HomeTabs from "./HomeFeedTopTabNavigator";
+import * as Haptics from "expo-haptics";
+import { useRef, useState } from "react";
 
 const Tab = createBottomTabNavigator();
 
 const HomeNavigator = ({ navigation }) => {
   const Height = Dimensions.get("window").height * 0.024;
   const IconSize = Height > 21 ? 21 : Height < 18 ? 18 : Height;
+  const forYouRef = useRef(null);
+  const followingRef = useRef(null);
+  const [routeName, setRouteName] = useState("Feed");
+  const [homeFeedRoute, setHomeFeedRoute] = useState("ForYou");
 
+  const scrollToTop = () => {
+    if (routeName === "Feed") {
+      if (homeFeedRoute === "ForYou") {
+        console.log("for you");
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        forYouRef.current?.scrollToOffset({ offset: 0, animated: true });
+      } else {
+        console.log("following");
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        followingRef.current?.scrollToOffset({ offset: 0, animated: true });
+      }
+    }
+  };
   return (
     <Tab.Navigator
       initialRouteName="Feed"
-      screenOptions={({}) => ({
+      screenOptions={{
         tabBarShowLabel: false,
         headerShadowVisible: false,
         tabBarStyle: {
@@ -29,11 +48,10 @@ const HomeNavigator = ({ navigation }) => {
         },
         headerTitleStyle: { fontFamily: "Nunito_700Bold" },
         freezeOnBlur: true,
-      })}
+      }}
     >
       <Tab.Screen
         name="Feed"
-        component={HomeTabs}
         options={{
           unmountOnBlur: false,
           headerShown: false,
@@ -50,7 +68,25 @@ const HomeNavigator = ({ navigation }) => {
             }
           },
         }}
-      />
+        listeners={{
+          tabLongPress: () => {
+            scrollToTop();
+          },
+          focus: () => {
+            setRouteName("Feed");
+          },
+        }}
+      >
+        {(props) => (
+          <HomeTabs
+            {...props}
+            forYouRef={forYouRef}
+            followingRef={followingRef}
+            navigation={navigation}
+            setHomeFeedRoute={setHomeFeedRoute}
+          />
+        )}
+      </Tab.Screen>
       <Tab.Screen
         name="Discover"
         component={Discover}
@@ -68,6 +104,11 @@ const HomeNavigator = ({ navigation }) => {
             }
           },
           headerShown: false,
+        }}
+        listeners={{
+          focus: () => {
+            setRouteName("Discover");
+          },
         }}
       />
       <Tab.Screen
@@ -91,6 +132,9 @@ const HomeNavigator = ({ navigation }) => {
             e.preventDefault();
             navigation.navigate("CreatePost");
           },
+          focus: () => {
+            setRouteName("Create");
+          },
         })}
       />
       <Tab.Screen
@@ -110,6 +154,11 @@ const HomeNavigator = ({ navigation }) => {
             }
           },
         }}
+        listeners={{
+          focus: () => {
+            setRouteName("Notifications");
+          },
+        }}
       />
       <Tab.Screen
         name="Profile"
@@ -123,6 +172,11 @@ const HomeNavigator = ({ navigation }) => {
             }
           },
           unmountOnBlur: true,
+        }}
+        listeners={{
+          focus: () => {
+            setRouteName("Profile");
+          },
         }}
       />
     </Tab.Navigator>

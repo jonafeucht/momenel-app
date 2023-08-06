@@ -15,7 +15,7 @@ import * as Haptics from "expo-haptics";
 
 let baseUrl = "https://api.momenel.com";
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, followingRef }) => {
   const [postsData, setPostsData] = useState([]);
   const [showFooter, setShowFooter] = useState(true);
   const fetchNotifications = useBoundStore((state) => state.fetchNotifications);
@@ -282,6 +282,7 @@ const Home = ({ navigation }) => {
       }}
     >
       <FlashList
+        ref={followingRef}
         data={postsData}
         estimatedItemSize={100}
         keyExtractor={keyExtractor}

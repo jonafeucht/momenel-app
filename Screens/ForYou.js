@@ -1,16 +1,14 @@
 import { Text, View } from "react-native";
 import React from "react";
 
-export default function ForYou() {
+let baseUrl = "https://api.momenel.com";
+
+const ForYou = ({ navigation, followingRef }) => {
   return (
-    <View
-      style={{
-        backgroundColor: "white",
-        height: "100%",
-        marginBottom: 800,
-      }}
-    >
+    <View style={{ height: "100%", backgroundColor: "white" }}>
       <Text>ForYou</Text>
     </View>
   );
-}
+};
+
+export default ForYou;
