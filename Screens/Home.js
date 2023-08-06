@@ -78,7 +78,6 @@ const Home = ({ navigation, followingRef }) => {
     } else {
       setPostsData((prev) => [...prev, ...response]);
     }
-
     setIsRefreshing(false);
   };
 

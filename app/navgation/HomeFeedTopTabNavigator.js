@@ -14,7 +14,6 @@ export default function HomeTabs({
 }) {
   const insets = useSafeAreaInsets();
   const width = useMemo(() => {
-    console.log(Dimensions.get("window").width);
     if (Dimensions.get("window").width < 400) {
       return Dimensions.get("window").width / 3;
     } else {
