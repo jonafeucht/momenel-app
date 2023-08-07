@@ -14,7 +14,7 @@ import CustomText from "../app/components/customText/CustomText";
 import * as Haptics from "expo-haptics";
 
 // let baseUrl = "https://api.momenel.com";
-let baseUrl = "https://382c-69-114-29-31.ngrok-free.app";
+let baseUrl = "https://de29-69-114-29-31.ngrok-free.app";
 
 const ForYou = ({ navigation, followingRef }) => {
   const [postsData, setPostsData] = useState([]);
