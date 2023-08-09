@@ -14,7 +14,7 @@ import CustomText from "../app/components/customText/CustomText";
 import * as Haptics from "expo-haptics";
 
 // let baseUrl = "https://api.momenel.com";
-let baseUrl = "https://de29-69-114-29-31.ngrok-free.app";
+let baseUrl = "https://2812-69-114-29-31.ngrok-free.app";
 
 const ForYou = ({ navigation, followingRef }) => {
   const [postsData, setPostsData] = useState([]);
@@ -103,62 +103,56 @@ const ForYou = ({ navigation, followingRef }) => {
       navigation.navigate("Login");
     }
 
-    // handle like confirmation before sending to the backend
-    const updatedPosts = postsData.map((post) => {
-      let id = post.type === "repost" ? post.post.id : post.id;
-
-      if (id === postId) {
-        if (post.isLiked) {
-          post.type === "repost"
-            ? post.post.likes[0].count--
-            : post.likes[0].count--;
-        } else {
-          post.type === "repost"
-            ? post.post.likes[0].count++
-            : post.likes[0].count++;
+    try {
+      // handle like confirmation before sending to the backend
+      const updatedPosts = postsData.map((post) => {
+        if (post.id === postId) {
+          if (post.isLiked) {
+            post.likes--;
+          } else {
+            post.likes++;
+          }
+          post.isLiked = !post.isLiked;
         }
-        post.isLiked = !post.isLiked;
+        return post;
+      });
+      setPostsData(updatedPosts);
+      // send like to the backend
+      let response = await fetch(`${baseUrl}/like/${postId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data.session.access_token}`,
+        },
+      });
+      // if error
+      if (!response.ok) {
+        Alert.alert("Error", "Something went wrong");
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+        return;
       }
-      return post;
-    });
-    setPostsData(updatedPosts);
-
-    // send like to the backend
-    let response = await fetch(`${baseUrl}/like/${postId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${data.session.access_token}`,
-      },
-    });
-    // if error
-    if (!response.ok) {
-      Alert.alert("Error", "Something went wrong");
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      return;
-    }
-    if (response.status === 200) {
-      let { likes } = await response.json();
-      const updatedPosts = postsData.map((post) => {
-        let id = post.type === "repost" ? post.post.id : post.id;
-        if (id === postId) {
-          post.type === "repost"
-            ? (post.post.likes[0].count = likes)
-            : (post.likes[0].count = likes);
-          post.isLiked = true;
-        }
-        return post;
-      });
-      setPostsData(updatedPosts);
-    } else if (response.status === 204) {
-      const updatedPosts = postsData.map((post) => {
-        let id = post.type === "repost" ? post.post.id : post.id;
-        if (id === postId) {
-          post.isLiked = false;
-        }
-        return post;
-      });
-      setPostsData(updatedPosts);
+      likes = sd;
+      if (response.status === 200) {
+        let { likes } = await response.json();
+        const updatedPosts = postsData.map((post) => {
+          if (post.id === postId) {
+            post.likes = likes;
+            post.isLiked = true;
+          }
+          return post;
+        });
+        setPostsData(updatedPosts);
+      } else if (response.status === 204) {
+        const updatedPosts = postsData.map((post) => {
+          if (post.id === postId) {
+            post.isLiked = false;
+          }
+          return post;
+        });
+        setPostsData(updatedPosts);
+      }
+    } catch (error) {
+      Alert.alert("Like error", "Something went wrong");
     }
   };
 
@@ -170,17 +164,11 @@ const ForYou = ({ navigation, followingRef }) => {
 
     // handle like confirmation before sending to the backend
     const updatedPosts = postsData.map((post) => {
-      let id = post.type === "repost" ? post.post.id : post.id;
-
-      if (id === postId) {
+      if (post.id === postId) {
         if (post.isReposted) {
-          post.type === "repost"
-            ? post.post.reposts[0].count--
-            : post.reposts[0].count--;
+          post.reposts.count--;
         } else {
-          post.type === "repost"
-            ? post.post.reposts[0].count++
-            : post.reposts[0].count++;
+          post.reposts.count++;
         }
         post.isReposted = !post.isReposted;
       }
@@ -204,8 +192,7 @@ const ForYou = ({ navigation, followingRef }) => {
     }
     if (response.status === 201) {
       const updatedPosts = postsData.map((post) => {
-        let id = post.type === "repost" ? post.post.id : post.id;
-        if (id === postId) {
+        if (post.id === postId) {
           post.isReposted = true;
         }
         return post;
@@ -213,8 +200,7 @@ const ForYou = ({ navigation, followingRef }) => {
       setPostsData(updatedPosts);
     } else if (response.status === 204) {
       const updatedPosts = postsData.map((post) => {
-        let id = post.type === "repost" ? post.post.id : post.id;
-        if (id === postId) {
+        if (post.id === postId) {
           post.isReposted = false;
         }
         return post;
@@ -270,7 +256,7 @@ const ForYou = ({ navigation, followingRef }) => {
     [showFooter]
   );
 
-  const keyExtractor = (item, index) => {
+  const keyExtractor = (item) => {
     return item.type + item.id;
   };
 
