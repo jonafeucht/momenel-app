@@ -13,8 +13,7 @@ import { FlashList } from "@shopify/flash-list";
 import CustomText from "../app/components/customText/CustomText";
 import * as Haptics from "expo-haptics";
 
-// let baseUrl = "https://api.momenel.com";
-let baseUrl = "https://2812-69-114-29-31.ngrok-free.app";
+let baseUrl = "https://api.momenel.com";
 
 const ForYou = ({ navigation, followingRef }) => {
   const [postsData, setPostsData] = useState([]);
@@ -131,7 +130,7 @@ const ForYou = ({ navigation, followingRef }) => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         return;
       }
-      likes = sd;
+
       if (response.status === 200) {
         let { likes } = await response.json();
         const updatedPosts = postsData.map((post) => {
