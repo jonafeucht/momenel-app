@@ -11,18 +11,28 @@ import Profile from "../../Screens/Profile";
 import Notifications from "../../Screens/Notifications";
 import HomeTabs from "./HomeFeedTopTabNavigator";
 import * as Haptics from "expo-haptics";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useBoundStore } from "../Store/useBoundStore";
 
 const Tab = createBottomTabNavigator();
 
 const HomeNavigator = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const Height = Dimensions.get("window").height * 0.024;
   const IconSize = Height > 21 ? 21 : Height < 18 ? 18 : Height;
   const forYouRef = useRef(null);
   const followingRef = useRef(null);
   const [routeName, setRouteName] = useState("Feed");
   const [homeFeedRoute, setHomeFeedRoute] = useState("ForYou");
+  const [color, setColor] = useState("black");
 
+  useEffect(() => {
+    if (mode === "dark") {
+      setColor("white");
+    } else {
+      setColor("black");
+    }
+  }, [mode]);
   const scrollToTop = () => {
     if (routeName === "Feed") {
       if (homeFeedRoute === "ForYou") {
@@ -43,7 +53,7 @@ const HomeNavigator = ({ navigation }) => {
         tabBarShowLabel: false,
         headerShadowVisible: false,
         tabBarStyle: {
-          backgroundColor: "#F9F9F9",
+          backgroundColor: mode === "dark" ? "#0C0C0C" : "#F9F9F9",
           paddingVertical: 0,
         },
         headerTitleStyle: { fontFamily: "Nunito_700Bold" },
@@ -59,10 +69,10 @@ const HomeNavigator = ({ navigation }) => {
             {
               return (
                 <HomeIcon
-                  color={focused ? "black" : "none"}
+                  color={focused ? color : "none"}
                   isSelected={focused}
                   size={IconSize}
-                  strokeColor={focused ? "black" : "#999999"}
+                  strokeColor={focused ? color : "#A6A6A6"}
                 />
               );
             }
@@ -91,14 +101,14 @@ const HomeNavigator = ({ navigation }) => {
         name="Discover"
         component={Discover}
         options={{
-          tabBarIcon: ({ size, focused, color }) => {
+          tabBarIcon: ({ size, focused }) => {
             {
               return (
                 <DiscoverIcon
-                  color={focused ? "black" : "none"}
+                  color={focused ? color : "none"}
                   isSelected={focused}
                   size={IconSize}
-                  strokeColor={focused ? "black" : "#999999"}
+                  strokeColor={focused ? color : "#A6A6A6"}
                 />
               );
             }
@@ -148,7 +158,7 @@ const HomeNavigator = ({ navigation }) => {
                 <NotificationsIcon
                   size={IconSize}
                   focused={focused}
-                  color={focused ? "black" : "#A8A8A8"}
+                  color={focused ? color : "#A8A8A8"}
                 />
               );
             }

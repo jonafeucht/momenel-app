@@ -3,7 +3,8 @@ import Home from "../../Screens/Home";
 import ForYou from "../../Screens/ForYou";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Dimensions } from "react-native";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useBoundStore } from "../Store/useBoundStore";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -12,7 +13,16 @@ export default function HomeTabs({
   followingRef,
   forYouRef,
 }) {
+  const mode = useBoundStore((state) => state.mode);
   const insets = useSafeAreaInsets();
+  const [color, setColor] = useState("black");
+  useEffect(() => {
+    if (mode === "dark") {
+      setColor("white");
+    } else {
+      setColor("black");
+    }
+  }, [mode]);
   const width = useMemo(() => {
     if (Dimensions.get("window").width < 400) {
       return Dimensions.get("window").width / 3;
@@ -28,16 +38,17 @@ export default function HomeTabs({
         tabBarLabelStyle: { fontSize: 13, fontFamily: "Nunito_600SemiBold" },
         tabBarItemStyle: { width: width },
         tabBarStyle: {
-          backgroundColor: "white",
+          backgroundColor: mode === "dark" ? "#0C0C0C" : "#F9F9F9",
           paddingTop: insets.top + 5,
           alignContent: "center",
           justifyContent: "space-between",
         },
         tabBarIndicatorStyle: {
-          borderBottomColor: "black",
-          backgroundColor: "black",
+          borderBottomColor: mode === "dark" ? "white" : "black",
+          backgroundColor: mode === "dark" ? "white" : "black",
         },
         lazy: true,
+        tabBarActiveTintColor: mode === "dark" ? "white" : "black",
       }}
     >
       <Tab.Screen

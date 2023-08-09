@@ -12,7 +12,7 @@ import { FlashList } from "@shopify/flash-list";
 import Post from "../app/components/Posts/Post";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "../app/components/customText/CustomText";
-import { StatusBar } from "expo-status-bar";
+
 import * as Haptics from "expo-haptics";
 import { supabase } from "../app/lib/supabase";
 import SearchBar from "../app/components/SearchBar";
@@ -386,7 +386,6 @@ const Discover = ({ navigation }) => {
           onEndReachedThreshold={0.1}
         />
       )}
-      <StatusBar style="dark" />
     </View>
   );
 };

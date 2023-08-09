@@ -1,8 +1,8 @@
 import {
   ActivityIndicator,
   Alert,
+  Button,
   RefreshControl,
-  StatusBar,
   View,
 } from "react-native";
 import { useCallback, useEffect, useState } from "react";
@@ -12,10 +12,13 @@ import { supabase } from "../app/lib/supabase";
 import { FlashList } from "@shopify/flash-list";
 import CustomText from "../app/components/customText/CustomText";
 import * as Haptics from "expo-haptics";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let baseUrl = "https://api.momenel.com";
 
 const ForYou = ({ navigation, followingRef }) => {
+  const mode = useBoundStore((state) => state.mode);
+  const setMode = useBoundStore((state) => state.setMode);
   const [postsData, setPostsData] = useState([]);
   const [showFooter, setShowFooter] = useState(true);
   const fetchNotifications = useBoundStore((state) => state.fetchNotifications);
@@ -26,6 +29,35 @@ const ForYou = ({ navigation, followingRef }) => {
   useEffect(() => {
     fetchPosts();
   }, [from, to, isRefreshing]);
+
+  useEffect(() => {
+    console.log("mode", mode);
+  }, [mode]);
+
+  const removeModeFromStorage = async () => {
+    try {
+      await AsyncStorage.removeItem("mode");
+      setMode(null); // Reset the mode state
+    } catch (error) {
+      console.error("Failed to remove the mode from storage", error);
+    }
+  };
+  const setDark = async () => {
+    try {
+      await AsyncStorage.setItem("mode", "dark"); // or 'light'
+      setMode("dark"); // Reset the mode state
+    } catch (error) {
+      console.error("Failed to remove the mode from storage", error);
+    }
+  };
+  const setLight = async () => {
+    try {
+      await AsyncStorage.setItem("mode", "light"); // or 'light'
+      setMode("light"); // Reset the mode state
+    } catch (error) {
+      console.error("Failed to remove the mode from storage", error);
+    }
+  };
 
   const fetchNotificationsIntervalDelay = 120000;
   const fetchNotificationsCallback = useCallback(() => {
@@ -262,6 +294,7 @@ const ForYou = ({ navigation, followingRef }) => {
   return (
     <View
       style={{
+        // backgroundColor: mode === "dark" ? "black" : "white",
         backgroundColor: "white",
         height: "100%",
         marginBottom: 800,
@@ -284,8 +317,14 @@ const ForYou = ({ navigation, followingRef }) => {
             tintColor={"black"}
           />
         }
+        ListHeaderComponent={() => (
+          <>
+            <Button title="reset" onPress={removeModeFromStorage} />
+            <Button title="Dark" onPress={setDark} />
+            <Button title="light" onPress={setLight} />
+          </>
+        )}
       />
-      <StatusBar hidden={false} backgroundColor={"white"} />
     </View>
   );
 };

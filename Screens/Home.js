@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  Alert,
-  RefreshControl,
-  StatusBar,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, RefreshControl, View } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 import { useBoundStore } from "../app/Store/useBoundStore";
 import Post from "../app/components/Posts/Post";
@@ -298,7 +292,6 @@ const Home = ({ navigation, followingRef }) => {
           />
         }
       />
-      <StatusBar hidden={false} backgroundColor={"white"} />
     </View>
   );
 };

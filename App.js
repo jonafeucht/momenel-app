@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNavigator from "./app/navgation/StackNavigator";
@@ -24,6 +25,8 @@ import CustomText from "./app/components/customText/CustomText";
 let baseUrl = "https://api.momenel.com";
 
 export default function App() {
+  const mode = useBoundStore((state) => state.mode);
+  const setMode = useBoundStore((state) => state.setMode);
   const [isError, setisError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [session, setSession] = useState(null);
@@ -38,6 +41,10 @@ export default function App() {
   );
   const SetUserData = useBoundStore((state) => state.SetUserData);
   const username = useBoundStore((state) => state.username);
+
+  useEffect(() => {
+    fetchModeFromStorage();
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -91,6 +98,17 @@ export default function App() {
       SetUserData(data.username, data.profile_url);
       setHasCompletedOnboarding(data.has_onboarded);
       setIsLoading(false);
+    }
+  };
+
+  const fetchModeFromStorage = async () => {
+    try {
+      const storedMode = await AsyncStorage.getItem("mode");
+      if (storedMode !== null) {
+        setMode(storedMode);
+      }
+    } catch (error) {
+      console.error("Failed to fetch the mode from storage", error);
     }
   };
 
@@ -149,7 +167,10 @@ export default function App() {
             <PortalProvider>
               <NavigationContainer>
                 <StackNavigator />
-                <StatusBar style="dark" animated={true} />
+                <StatusBar
+                  style={mode === "dark" ? "light" : "dark"}
+                  animated={true}
+                />
               </NavigationContainer>
             </PortalProvider>
           </SafeAreaProvider>
