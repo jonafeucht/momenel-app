@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let baseUrl = "https://api.momenel.com";
 
-const ForYou = ({ navigation, followingRef }) => {
+const ForYou = ({ navigation, forYouRef }) => {
   const mode = useBoundStore((state) => state.mode);
   const setMode = useBoundStore((state) => state.setMode);
   const [postsData, setPostsData] = useState([]);
@@ -302,7 +302,7 @@ const ForYou = ({ navigation, followingRef }) => {
       }}
     >
       <FlashList
-        ref={followingRef}
+        ref={forYouRef}
         data={postsData}
         estimatedItemSize={100}
         keyExtractor={keyExtractor}
