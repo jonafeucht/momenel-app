@@ -10,6 +10,7 @@ import * as Haptics from "expo-haptics";
 let baseUrl = "https://api.momenel.com";
 
 const Home = ({ navigation, followingRef }) => {
+  const mode = useBoundStore((state) => state.mode);
   const [postsData, setPostsData] = useState([]);
   const [showFooter, setShowFooter] = useState(true);
   const fetchNotifications = useBoundStore((state) => state.fetchNotifications);
@@ -258,8 +259,14 @@ const Home = ({ navigation, followingRef }) => {
         !showFooter && { marginTop: -15 },
       ]}
     >
-      {showFooter && <ActivityIndicator color="#0000ff" />}
-      {!showFooter && <CustomText>You are all caught up 😀</CustomText>}
+      {showFooter && (
+        <ActivityIndicator color={mode === "dark" ? "white" : "#0000ff"} />
+      )}
+      {!showFooter && (
+        <CustomText style={{ color: mode === "dark" ? "white" : "#0000ff" }}>
+          You are all caught up 😀
+        </CustomText>
+      )}
     </View>,
     [showFooter]
   );
@@ -269,7 +276,7 @@ const Home = ({ navigation, followingRef }) => {
   return (
     <View
       style={{
-        backgroundColor: "white",
+        backgroundColor: mode === "dark" ? "black" : "white",
         height: "100%",
         marginBottom: 800,
       }}
@@ -288,7 +295,7 @@ const Home = ({ navigation, followingRef }) => {
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={handleRefresh}
-            tintColor={"black"}
+            tintColor={mode === "dark" ? "white" : "black"}
           />
         }
       />

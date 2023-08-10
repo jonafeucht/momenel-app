@@ -284,7 +284,11 @@ const ForYou = ({ navigation, forYouRef }) => {
       {showFooter && (
         <ActivityIndicator color={mode === "dark" ? "white" : "#0000ff"} />
       )}
-      {!showFooter && <CustomText>You are all caught up 😀</CustomText>}
+      {!showFooter && (
+        <CustomText style={{ color: mode === "dark" ? "white" : "#0000ff" }}>
+          You are all caught up 😀
+        </CustomText>
+      )}
     </View>,
     [showFooter]
   );
