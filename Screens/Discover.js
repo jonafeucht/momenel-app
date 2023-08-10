@@ -12,15 +12,16 @@ import { FlashList } from "@shopify/flash-list";
 import Post from "../app/components/Posts/Post";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomText from "../app/components/customText/CustomText";
-
 import * as Haptics from "expo-haptics";
 import { supabase } from "../app/lib/supabase";
 import SearchBar from "../app/components/SearchBar";
 import { scale } from "../app/utils/Scale";
+import { useBoundStore } from "../app/Store/useBoundStore";
 
 let baseUrl = "https://api.momenel.com";
 
 const Discover = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [showFooter, setShowFooter] = useState(true);
@@ -207,7 +208,7 @@ const Discover = ({ navigation }) => {
   };
 
   const renderHeader = (
-    <View style={{}}>
+    <View>
       {/* top hashtags */}
       {trendingHashtags.length > 0 && (
         <View>
@@ -216,6 +217,7 @@ const Discover = ({ navigation }) => {
               fontFamily: "Nunito_700Bold",
               marginHorizontal: 12,
               marginBottom: "1%",
+              color: mode === "dark" ? "white" : "black",
             }}
           >
             Top Hashtags
@@ -223,7 +225,11 @@ const Discover = ({ navigation }) => {
           <FlashList
             data={trendingHashtags}
             renderItem={({ item }) => (
-              <Tag tag={item.hashtag.hashtag} navigation={navigation} />
+              <Tag
+                tag={item.hashtag.hashtag}
+                navigation={navigation}
+                mode={mode}
+              />
             )}
             horizontal
             estimatedItemSize={110}
@@ -242,6 +248,7 @@ const Discover = ({ navigation }) => {
               fontFamily: "Nunito_700Bold",
               marginHorizontal: 12,
               marginBottom: "1%",
+              color: mode === "dark" ? "white" : "black",
             }}
           >
             Following Hashtags
@@ -249,7 +256,11 @@ const Discover = ({ navigation }) => {
           <FlashList
             data={followingHashtags}
             renderItem={({ item }) => (
-              <Tag tag={item.hashtag.hashtag} navigation={navigation} />
+              <Tag
+                tag={item.hashtag.hashtag}
+                navigation={navigation}
+                mode={mode}
+              />
             )}
             showsHorizontalScrollIndicator={false}
             horizontal
@@ -301,8 +312,14 @@ const Discover = ({ navigation }) => {
         !showFooter && { marginTop: -15 },
       ]}
     >
-      {showFooter && <ActivityIndicator color="#0000ff" />}
-      {!showFooter && <CustomText>You are all caught up 😀</CustomText>}
+      {showFooter && (
+        <ActivityIndicator color={mode === "dark" ? "white" : "#0000ff"} />
+      )}
+      {!showFooter && (
+        <CustomText style={{ color: mode === "dark" ? "white" : "#0000ff" }}>
+          You are all caught up 😀
+        </CustomText>
+      )}
     </View>,
     [showFooter]
   );
@@ -325,7 +342,7 @@ const Discover = ({ navigation }) => {
   return (
     <View
       style={{
-        backgroundColor: "white",
+        backgroundColor: mode === "dark" ? "black" : "white",
         height: "100%",
         marginBottom: 800,
       }}
@@ -333,7 +350,7 @@ const Discover = ({ navigation }) => {
       <SafeAreaView
         style={{
           display: "flex",
-          backgroundColor: "white",
+          backgroundColor: mode === "dark" ? "black" : "white",
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
@@ -377,7 +394,7 @@ const Discover = ({ navigation }) => {
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={handleRefresh}
-              tintColor={"black"}
+              tintColor={mode === "dark" ? "white" : "black"}
             />
           }
           ListFooterComponent={renderListFooter}
@@ -390,7 +407,7 @@ const Discover = ({ navigation }) => {
   );
 };
 
-const Tag = ({ tag, navigation }) => {
+const Tag = ({ tag, navigation, mode }) => {
   return (
     <Pressable
       onPress={() =>
@@ -401,7 +418,7 @@ const Tag = ({ tag, navigation }) => {
       }
       style={{
         height: 40,
-        backgroundColor: "#BFBFBF",
+        backgroundColor: mode === "dark" ? "#D9D9D9" : "#BFBFBF",
         justifyContent: "center",
         marginRight: 10,
         paddingHorizontal: 15,

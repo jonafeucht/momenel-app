@@ -3,14 +3,16 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "./customText/CustomText";
 import { scale } from "../utils/Scale";
+import { useBoundStore } from "../Store/useBoundStore";
 const SearchBar = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   return (
     <View
       style={[
         {
           flexDirection: "row",
           flex: 1,
-          backgroundColor: "#F1F1F2",
+          backgroundColor: mode === "dark" ? "#424242" : "#F1F1F2",
           marginRight: "2%",
           height: "100%",
           width: "100%",
@@ -28,7 +30,7 @@ const SearchBar = ({ navigation }) => {
       <Ionicons
         name="ios-search"
         size={scale(15)}
-        color="#727477"
+        color="#999999"
         onPress={() =>
           navigation.navigate("Search", {
             type: null,
@@ -60,7 +62,6 @@ const SearchBar = ({ navigation }) => {
         >
           <CustomText
             style={{
-              backgroundColor: "#F1F1F2",
               fontFamily: "Nunito_600SemiBold",
               fontSize: scale(13),
               color: "#999999",

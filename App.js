@@ -1,12 +1,6 @@
 import "react-native-url-polyfill/auto";
 import { StatusBar } from "expo-status-bar";
-import {
-  ActivityIndicator,
-  Alert,
-  Button,
-  StyleSheet,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, Button, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
@@ -135,14 +129,34 @@ export default function App() {
     return null;
   } else if (isLoading) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator color="#0000ff" />
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: mode === "dark" ? "#000" : "#fff",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator color={mode === "dark" ? "white" : "#0000ff"} />
       </View>
     );
   } else if (isError) {
     return (
-      <View style={styles.container}>
-        <CustomText>Something went wrong</CustomText>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: mode === "dark" ? "#000" : "#fff",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CustomText
+          style={{
+            color: mode === "dark" ? "white" : "#000",
+          }}
+        >
+          Something went wrong
+        </CustomText>
         <Button
           title="Retry"
           onPress={() => getIntialData(session.access_token)}
@@ -188,12 +202,3 @@ export default function App() {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
