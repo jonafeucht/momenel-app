@@ -372,7 +372,7 @@ const Post = ({
                 fontFamily: "Nunito_700Bold",
                 fontSize: FontSize - 1,
                 marginRight: 9,
-                color: "#999999",
+                color: mode === "dark" ? "#BABABA" : "#999999",
               }}
             >
               {kFormatter(likes)}
@@ -396,7 +396,7 @@ const Post = ({
                 fontFamily: "Nunito_700Bold",
                 fontSize: FontSize - 1,
                 marginRight: 9,
-                color: "#999999",
+                color: mode === "dark" ? "#BABABA" : "#999999",
               }}
             >
               {kFormatter(comments)}
@@ -412,7 +412,12 @@ const Post = ({
           }}
         >
           <Pressable onPress={handleRepostFunc}>
-            <Repost size={25} color={isReposted ? "#8456E9" : "#999999"} />
+            <Repost
+              size={25}
+              color={
+                isReposted ? "#986BFF" : mode === "dark" ? "#BABABA" : "#999"
+              }
+            />
           </Pressable>
           {reposts >= 1 && (
             <Pressable
@@ -429,7 +434,7 @@ const Post = ({
                   fontFamily: "Nunito_700Bold",
                   fontSize: FontSize - 1,
                   marginRight: 9,
-                  color: "#999999",
+                  color: mode === "dark" ? "#BABABA" : "#999999",
                 }}
               >
                 {kFormatter(reposts)}
@@ -443,11 +448,13 @@ const Post = ({
         onSheetClose={() => setShowBottomSheet(false)}
       >
         <View
-          style={{
-            paddingHorizontal: "5%",
-            paddingTop: "2%",
-            paddingBottom: "5%",
-          }}
+          style={[
+            {
+              paddingHorizontal: "5%",
+              paddingTop: "2%",
+              paddingBottom: "5%",
+            },
+          ]}
         >
           <StructuredText
             mentionHashtagPress={mentionHashtagClick}

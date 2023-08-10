@@ -45,6 +45,7 @@ const BottomFlatSheet = (props) => {
         {...props}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
+        opacity={mode === "dark" ? 0.25 : 0.5}
       />
     ),
     []
@@ -63,12 +64,15 @@ const BottomFlatSheet = (props) => {
           enablePanDownToClose={true}
           backdropComponent={renderBackdrop}
           handleStyle={{
-            backgroundColor: mode === "dark" ? "#1E1E1E" : "white",
+            backgroundColor: mode === "dark" ? "#212121" : "white",
             borderTopEndRadius: 10,
             borderTopStartRadius: 10,
           }}
           handleIndicatorStyle={{
             backgroundColor: mode === "dark" ? "#464646" : "#828282",
+          }}
+          backgroundStyle={{
+            backgroundColor: mode === "dark" ? "#212121" : "#ffffff",
           }}
         >
           <BottomSheetView onLayout={handleContentLayout}>

@@ -9,8 +9,10 @@ import Animated, {
 import { Pressable, StyleSheet } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const Heart = ({ isLiked, onPress, size }) => {
+  const mode = useBoundStore((state) => state.mode);
   const liked = useSharedValue(isLiked ? 1 : 0);
 
   const [isFirst, setisFirst] = useState(true);
@@ -65,7 +67,11 @@ const Heart = ({ isLiked, onPress, size }) => {
   return (
     <Pressable onPress={handleLikeFunc}>
       <Animated.View style={[StyleSheet.absoluteFillObject, outlineStyle]}>
-        <Octicons name="heart" size={size} color="#999999" />
+        <Octicons
+          name="heart"
+          size={size}
+          color={mode === "dark" ? "#BABABA" : "#999"}
+        />
       </Animated.View>
       <Animated.View style={fillStyle}>
         <Octicons name="heart-fill" size={size} color="#FF6060" />

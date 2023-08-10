@@ -7,8 +7,10 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 import { Portal } from "@gorhom/portal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const DetachedBottomSheetWithScroll = (props) => {
+  const mode = useBoundStore((state) => state.mode);
   let { show, onSheetClose } = props;
   const insets = useSafeAreaInsets();
   const bottomSheetRef = useRef(null);
@@ -43,6 +45,7 @@ const DetachedBottomSheetWithScroll = (props) => {
         {...props}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
+        opacity={mode === "dark" ? 0.4 : 0.5}
       />
     ),
     []
@@ -65,6 +68,12 @@ const DetachedBottomSheetWithScroll = (props) => {
             marginHorizontal: "3%",
           }}
           keyboardBlurBehavior="restore"
+          backgroundStyle={{
+            backgroundColor: mode === "dark" ? "#212121" : "#ffffff",
+          }}
+          handleIndicatorStyle={{
+            backgroundColor: mode === "dark" ? "#464646" : "#828282",
+          }}
         >
           <BottomSheetScrollView
             onLayout={handleContentLayout}
