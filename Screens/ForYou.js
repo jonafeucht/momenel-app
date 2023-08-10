@@ -281,7 +281,9 @@ const ForYou = ({ navigation, followingRef }) => {
         !showFooter && { marginTop: -15 },
       ]}
     >
-      {showFooter && <ActivityIndicator color="#0000ff" />}
+      {showFooter && (
+        <ActivityIndicator color={mode === "dark" ? "white" : "#0000ff"} />
+      )}
       {!showFooter && <CustomText>You are all caught up 😀</CustomText>}
     </View>,
     [showFooter]

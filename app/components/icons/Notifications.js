@@ -3,7 +3,7 @@ import { useBoundStore } from "../../Store/useBoundStore";
 
 const Notifications = ({ size, color }) => {
   const newNotifications = useBoundStore((state) => state.newNotifications);
-
+  const mode = useBoundStore((state) => state.mode);
   return (
     <Svg width={size} height={size} fill="none" viewBox="0 0 20 21">
       <Path
@@ -14,7 +14,7 @@ const Notifications = ({ size, color }) => {
         <Path
           d="M14.947 7.394a3.447 3.447 0 1 0 0-6.894 3.447 3.447 0 0 0 0 6.894Z"
           fill="#F52E92"
-          stroke="#fff"
+          stroke={mode === "dark" ? "#0E0E0E" : "#fff"}
         />
       )}
     </Svg>
