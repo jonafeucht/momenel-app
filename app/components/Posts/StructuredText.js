@@ -1,8 +1,10 @@
 import React, { memo } from "react";
 import CustomText from "../customText/CustomText";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const StructuredText = memo((props) => {
-  const prepareText = (text, mentionHashtagPress, mentionHashtagColor) => {
+  const mode = useBoundStore((state) => state.mode);
+  const prepareText = (text, mentionHashtagPress) => {
     const result = [];
     let shouldAddMore = false;
 
@@ -44,7 +46,7 @@ const StructuredText = memo((props) => {
       result.push(
         <Mention
           key={i}
-          mentionHashtagColor={mentionHashtagColor}
+          mentionHashtagColor={mode === "dark" ? "#986BFF" : "#8759F2"}
           mentionHashtagPress={mentionHashtagPress}
           text={ment}
           style={props.style}
@@ -63,7 +65,6 @@ const StructuredText = memo((props) => {
       result.push(
         <Mention
           key={"more"}
-          mentionHashtagColor={"#757575"}
           mentionHashtagPress={mentionHashtagPress}
           text={"more"}
         />
@@ -74,14 +75,14 @@ const StructuredText = memo((props) => {
 
   return (
     <CustomText
-      style={[props.style, { fontFamily: "Nunito_400Regular" }]}
+      style={[
+        props.style,
+        { fontFamily: "Nunito_400Regular" },
+        mode === "dark" && { color: "#E4E3E4" },
+      ]}
       selectable={true}
     >
-      {prepareText(
-        props.children,
-        props.mentionHashtagPress,
-        props.mentionHashtagColor
-      )}
+      {prepareText(props.children, props.mentionHashtagPress)}
     </CustomText>
   );
 });

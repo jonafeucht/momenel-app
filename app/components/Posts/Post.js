@@ -15,6 +15,7 @@ import { scale } from "../../utils/Scale";
 import DetachedBottomSheetWithScroll from "../BottomFlatSheet/DetachedBottomSheetWithScroll";
 import { useRoute } from "@react-navigation/native";
 import { CalcHeight } from "../../utils/CalcHeight";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const ScreenWidth = Dimensions.get("window").width;
 
@@ -42,6 +43,7 @@ const Post = ({
   onDeletePress,
   isPublished,
 }) => {
+  const mode = useBoundStore((state) => state.mode);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const FontSize = useMemo(() => scale(14), []);
   const route = useRoute();
@@ -171,7 +173,7 @@ const Post = ({
   return (
     <View
       style={{
-        backgroundColor: "#FFFFFF",
+        backgroundColor: mode === "dark" ? "#000000" : "#FFFFFF",
         width: "100%",
         marginVertical: 10,
         justifyContent: "center",
@@ -192,11 +194,14 @@ const Post = ({
             alignItems: "center",
           }}
         >
-          <Repost size={FontSize + 4} color={"#8456E9"} />
+          <Repost
+            size={FontSize + 4}
+            color={mode === "dark" ? "#986BFF" : "#8456E9"}
+          />
           <CustomText
             style={{
               fontFamily: "Nunito_700Bold",
-              color: "#999999",
+              color: mode === "dark" ? "#A6A6A6" : "#999999",
               marginLeft: "1%",
               fontSize: FontSize - 2,
             }}

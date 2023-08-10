@@ -294,8 +294,7 @@ const ForYou = ({ navigation, followingRef }) => {
   return (
     <View
       style={{
-        // backgroundColor: mode === "dark" ? "black" : "white",
-        backgroundColor: "white",
+        backgroundColor: mode === "dark" ? "black" : "white",
         height: "100%",
         marginBottom: 800,
       }}
@@ -314,7 +313,7 @@ const ForYou = ({ navigation, followingRef }) => {
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={handleRefresh}
-            tintColor={"black"}
+            tintColor={mode === "dark" ? "white" : "black"}
           />
         }
         ListHeaderComponent={() => (

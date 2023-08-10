@@ -53,8 +53,9 @@ const HomeNavigator = ({ navigation }) => {
         tabBarShowLabel: false,
         headerShadowVisible: false,
         tabBarStyle: {
-          backgroundColor: mode === "dark" ? "#0C0C0C" : "#F9F9F9",
+          backgroundColor: mode === "dark" ? "#0E0E0E" : "#F9F9F9",
           paddingVertical: 0,
+          borderTopColor: mode === "dark" ? "#2A2A2A" : "#F9F9F9",
         },
         headerTitleStyle: { fontFamily: "Nunito_700Bold" },
         freezeOnBlur: true,

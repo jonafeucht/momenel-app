@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import CustomText from "../customText/CustomText";
@@ -8,6 +8,7 @@ import BottomSheet from "../BottomFlatSheet/BottomSheet";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { scale } from "../../utils/Scale";
 import { useRoute } from "@react-navigation/native";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const ScreenWidth = Dimensions.get("window").width;
 
@@ -22,9 +23,8 @@ const PostHeader = ({
   onDeletePress,
 }) => {
   const { name: RouteName } = useRoute();
-
   const [showBottomSheet, setShowBottomSheet] = useState(false);
-
+  const mode = useBoundStore((state) => state.mode);
   useEffect(() => {
     setShowBottomSheet(false);
   }, []);
@@ -45,7 +45,12 @@ const PostHeader = ({
 
   const Time = useMemo(
     () => (
-      <CustomText style={styles.textMedium}>
+      <CustomText
+        style={[
+          styles.textMedium,
+          mode === "dark" ? { color: "#D3D3D3" } : { color: "#999999" },
+        ]}
+      >
         {RelativeTime(createdAt)}
       </CustomText>
     ),
@@ -92,7 +97,7 @@ const PostHeader = ({
             <Ionicons
               name="person-circle-sharp"
               size={size + 4}
-              color="#999999"
+              color={mode === "dark" ? "#A6A6A6" : "#999999"}
               style={{ marginRight: "2%" }}
             />
           )}
@@ -103,7 +108,7 @@ const PostHeader = ({
         >
           <CustomText
             style={{
-              color: "#262628",
+              color: mode === "dark" ? "white" : "#262628",
               fontSize: memoizedScale(13.5),
               paddingBottom: 2,
               fontFamily: "Nunito_600SemiBold",
@@ -123,19 +128,29 @@ const PostHeader = ({
             {name ? (
               <CustomText
                 numberOfLines={1}
-                style={[styles.textMedium, { maxWidth: memoizedScale(170) }]}
+                style={[
+                  styles.textMedium,
+                  { maxWidth: memoizedScale(170) },
+                  mode === "dark" ? { color: "#D3D3D3" } : { color: "#999999" },
+                ]}
               >
                 @{username}
               </CustomText>
             ) : (
-              <Text></Text>
+              <></>
             )}
             {name ? (
-              <CustomText style={[styles.textMedium, { fontSize: 4 }]}>
+              <CustomText
+                style={[
+                  styles.textMedium,
+                  { fontSize: 4 },
+                  mode === "dark" ? { color: "#D3D3D3" } : { color: "#999999" },
+                ]}
+              >
                 {"\u2B24"}
               </CustomText>
             ) : (
-              <Text></Text>
+              <></>
             )}
             {Time}
           </View>
@@ -151,7 +166,11 @@ const PostHeader = ({
           style={{ marginLeft: 6 }}
           onPress={() => setShowBottomSheet(true)}
         >
-          <Ionicons name="ellipsis-vertical" size={scale(18)} color="#828282" />
+          <Ionicons
+            name="ellipsis-vertical"
+            size={scale(18)}
+            color={mode === "dark" ? "#D3D3D3" : "#828282"}
+          />
         </Pressable>
       </View>
       <BottomSheet
@@ -165,6 +184,7 @@ const PostHeader = ({
             paddingTop: 10,
             paddingBottom: insets.bottom + 15,
             paddingHorizontal: 20,
+            backgroundColor: mode === "dark" ? "#1E1E1E" : "white",
           }}
         >
           {RouteName === "Profile" ? (
@@ -173,7 +193,7 @@ const PostHeader = ({
                 flexDirection: "row",
                 alignItems: "center",
                 width: "100%",
-                backgroundColor: "#EAEAEA",
+                backgroundColor: mode === "dark" ? "#2A2A2A" : "#EAEAEA",
                 paddingVertical: 15,
                 paddingHorizontal: 18,
 
@@ -198,7 +218,7 @@ const PostHeader = ({
                 flexDirection: "row",
                 alignItems: "center",
                 width: "100%",
-                backgroundColor: "#EAEAEA",
+                backgroundColor: mode === "dark" ? "#2A2A2A" : "#EAEAEA",
                 paddingVertical: 15,
                 paddingHorizontal: 18,
                 marginTop: 10,
@@ -228,7 +248,6 @@ export default PostHeader;
 
 const styles = StyleSheet.create({
   textMedium: {
-    color: "#999999",
     fontSize: 13,
     marginRight: 4,
   },

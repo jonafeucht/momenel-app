@@ -38,7 +38,7 @@ export default function HomeTabs({
         tabBarLabelStyle: { fontSize: 13, fontFamily: "Nunito_600SemiBold" },
         tabBarItemStyle: { width: width },
         tabBarStyle: {
-          backgroundColor: mode === "dark" ? "#0C0C0C" : "#F9F9F9",
+          backgroundColor: mode === "dark" ? "#0E0E0E" : "#F9F9F9",
           paddingTop: insets.top + 5,
           alignContent: "center",
           justifyContent: "space-between",

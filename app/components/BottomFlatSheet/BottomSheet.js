@@ -5,10 +5,12 @@ import BottomSheet, {
   useBottomSheetDynamicSnapPoints,
 } from "@gorhom/bottom-sheet";
 import { Portal } from "@gorhom/portal";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const BottomFlatSheet = (props) => {
   let { show, onSheetClose } = props;
   const bottomSheetRef = useRef(null);
+  const mode = useBoundStore((state) => state.mode);
 
   useEffect(() => {
     if (show === true) {
@@ -60,6 +62,14 @@ const BottomFlatSheet = (props) => {
           onChange={handleSheetChanges}
           enablePanDownToClose={true}
           backdropComponent={renderBackdrop}
+          handleStyle={{
+            backgroundColor: mode === "dark" ? "#1E1E1E" : "white",
+            borderTopEndRadius: 10,
+            borderTopStartRadius: 10,
+          }}
+          handleIndicatorStyle={{
+            backgroundColor: mode === "dark" ? "#464646" : "#828282",
+          }}
         >
           <BottomSheetView onLayout={handleContentLayout}>
             {props.children}
