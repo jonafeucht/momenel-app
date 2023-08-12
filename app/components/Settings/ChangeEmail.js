@@ -12,8 +12,10 @@ import {
 import LinearGradientButton from "../Buttons/LinearGradientButton";
 import CustomText from "../customText/CustomText";
 import { supabase } from "../../lib/supabase";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const ChangeEmail = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const [oldEmail, setOldEmail] = useState();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -52,15 +54,42 @@ const ChangeEmail = ({ navigation }) => {
   };
 
   return (
-    <Pressable onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+    <Pressable
+      onPress={Keyboard.dismiss}
+      style={{
+        backgroundColor: mode === "dark" ? "#333333" : "white",
+        flex: 1,
+      }}
+    >
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: mode === "dark" ? "#333333" : "white" },
+        ]}
+      >
         {isLoading ? (
-          <ActivityIndicator size="small" />
+          <ActivityIndicator
+            size="small"
+            color={mode === "dark" ? "white" : "black"}
+          />
         ) : (
           <>
-            <CustomText style={styles.label}>Email Address</CustomText>
+            <CustomText
+              style={[
+                styles.label,
+                { color: mode === "dark" ? "white" : "black" },
+              ]}
+            >
+              Email Address
+            </CustomText>
             <TextInput
-              style={styles.input}
+              style={[
+                styles.input,
+                {
+                  color: mode === "dark" ? "white" : "black",
+                  backgroundColor: mode === "dark" ? "#555555" : "#f0f0f0",
+                },
+              ]}
               value={email}
               onChangeText={(t) => {
                 setEmail(t);
@@ -113,7 +142,7 @@ export default ChangeEmail;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: "100%",
     backgroundColor: "#fff",
     padding: 16,
   },

@@ -13,10 +13,11 @@ import { scale } from "../utils/Scale";
 import ChangeEmail from "../components/Settings/ChangeEmail";
 import ChangeBirthday from "../components/Settings/ChangeBirthday";
 import CustomText from "../components/customText/CustomText";
+import { useBoundStore } from "../Store/useBoundStore";
 
 const Stack = createNativeStackNavigator();
 
-const BackButton = ({ onPress }) => (
+const BackButton = ({ onPress, mode }) => (
   <Pressable
     onPress={onPress}
     style={{
@@ -29,12 +30,16 @@ const BackButton = ({ onPress }) => (
       name="chevron-back"
       size={scale(28)}
       color="black"
-      style={{ marginLeft: -scale(10) }}
+      style={{
+        marginLeft: -scale(10),
+        color: mode === "dark" ? "white" : "black",
+      }}
     />
     <CustomText
       style={{
         fontSize: scale(24),
         fontFamily: "Nunito_700Bold",
+        color: mode === "dark" ? "white" : "black",
       }}
     >
       Settings
@@ -43,6 +48,7 @@ const BackButton = ({ onPress }) => (
 );
 
 const SettingsStackNavigator = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   return (
     <Stack.Navigator
       initialRouteName="Settings"
@@ -56,8 +62,13 @@ const SettingsStackNavigator = ({ navigation }) => {
         component={Settings}
         options={{
           headerShadowVisible: false,
-          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerLeft: () => (
+            <BackButton onPress={() => navigation.goBack()} mode={mode} />
+          ),
           title: "",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
         }}
       />
       <Stack.Screen
@@ -66,7 +77,10 @@ const SettingsStackNavigator = ({ navigation }) => {
         options={{
           headerShadowVisible: false,
           headerBackTitle: "",
-          headerTintColor: "black",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
         }}
       />
       <Stack.Screen
@@ -76,6 +90,10 @@ const SettingsStackNavigator = ({ navigation }) => {
           headerShadowVisible: false,
           headerBackTitle: "",
           headerTintColor: "black",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
         }}
       />
       <Stack.Screen
@@ -84,7 +102,10 @@ const SettingsStackNavigator = ({ navigation }) => {
         options={{
           headerShadowVisible: false,
           headerBackTitle: "",
-          headerTintColor: "black",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
         }}
       />
 
@@ -95,7 +116,10 @@ const SettingsStackNavigator = ({ navigation }) => {
           headerTitle: "Blocked Accounts",
           headerShadowVisible: false,
           headerBackTitle: "",
-          headerTintColor: "black",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
         }}
       />
       <Stack.Screen
@@ -104,7 +128,10 @@ const SettingsStackNavigator = ({ navigation }) => {
         options={{
           headerShadowVisible: false,
           headerBackTitle: "",
-          headerTintColor: "black",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
         }}
       />
       <Stack.Screen
@@ -114,7 +141,10 @@ const SettingsStackNavigator = ({ navigation }) => {
           headerTitle: "",
           headerShadowVisible: false,
           headerBackTitle: "",
-          headerTintColor: "black",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
         }}
       />
       <Stack.Screen
@@ -124,7 +154,10 @@ const SettingsStackNavigator = ({ navigation }) => {
           headerTitle: "Personal Info",
           headerShadowVisible: false,
           headerBackTitle: "",
-          headerTintColor: "black",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
         }}
       />
       <Stack.Screen
@@ -134,7 +167,10 @@ const SettingsStackNavigator = ({ navigation }) => {
           headerTitle: "Delete Account",
           headerShadowVisible: false,
           headerBackTitle: "",
-          headerTintColor: "black",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
         }}
       />
     </Stack.Navigator>

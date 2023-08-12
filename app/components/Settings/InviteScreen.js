@@ -6,6 +6,7 @@ import LinearGradientButton from "../../components/Buttons/LinearGradientButton"
 import { useBoundStore } from "../../Store/useBoundStore";
 
 const InviteFriendsScreen = () => {
+  const mode = useBoundStore((state) => state.mode);
   const [link, setLink] = useState("");
   const username = useBoundStore((state) => state.username);
 
@@ -26,22 +27,54 @@ const InviteFriendsScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 16,
+        alignItems: "center",
+        backgroundColor: mode === "dark" ? "#333333" : "#fff",
+        paddingTop: "5%",
+      }}
+    >
       <CustomText
         style={{
           fontSize: 20,
           fontWeight: "bold",
-          fontFamily: "Nunito_700Bold",
           marginBottom: 16,
+          color: mode === "dark" ? "white" : "black",
         }}
       >
         Invite Friends 📧
       </CustomText>
-      <Text style={styles.description}>
+      <Text
+        style={{
+          fontSize: 16,
+          marginBottom: 16,
+          color: mode === "dark" ? "white" : "black",
+        }}
+      >
         Share this link with your friends to invite them to join:
       </Text>
-      <Pressable style={styles.linkContainer} onPress={handleCopyLink}>
-        <Text style={styles.link}>
+      <Pressable
+        style={{
+          padding: 8,
+          borderWidth: 1,
+          borderColor: mode === "dark" ? "#555555" : "#ddd",
+          borderRadius: 8,
+          marginBottom: 16,
+          alignSelf: "stretch",
+          backgroundColor: mode === "dark" ? "#444444" : "#fff",
+        }}
+        onPress={handleCopyLink}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            textAlign: "center",
+            color: "#007aff",
+            textDecorationLine: "underline",
+          }}
+        >
           {link} {`\n(click to copy)`}
         </Text>
       </Pressable>
@@ -76,49 +109,5 @@ const InviteFriendsScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingHorizontal: 16,
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 16,
-  },
-  linkContainer: {
-    padding: 8,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    marginBottom: 16,
-    alignSelf: "stretch",
-  },
-  link: {
-    fontSize: 16,
-    textAlign: "center",
-    color: "#007aff",
-    textDecorationLine: "underline",
-  },
-  button: {
-    padding: 12,
-    backgroundColor: "#007aff",
-    borderRadius: 8,
-    alignSelf: "stretch",
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#fff",
-    textAlign: "center",
-  },
-});
 
 export default InviteFriendsScreen;

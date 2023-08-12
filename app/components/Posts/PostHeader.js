@@ -54,7 +54,7 @@ const PostHeader = ({
         {RelativeTime(createdAt)}
       </CustomText>
     ),
-    [createdAt]
+    [createdAt, mode]
   );
 
   const memoizedScale = useCallback((size) => {

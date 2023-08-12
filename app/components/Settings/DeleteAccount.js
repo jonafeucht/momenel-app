@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
 import { supabase } from "../../lib/supabase";
 import CustomText from "../customText/CustomText";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 let baseUrl = "https://api.momenel.com";
 
 const DeleteAccount = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDeleteAccount = async () => {
@@ -46,8 +48,15 @@ const DeleteAccount = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomText style={styles.text}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: mode === "dark" ? "#333333" : "#fff" },
+      ]}
+    >
+      <CustomText
+        style={[styles.text, { color: mode === "dark" ? "white" : "black" }]}
+      >
         Are you sure that you want to delete your account? Your account will be
         permanently deleted.
       </CustomText>

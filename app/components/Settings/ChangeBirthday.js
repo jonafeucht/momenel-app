@@ -12,10 +12,12 @@ import {
 import LinearGradientButton from "../Buttons/LinearGradientButton";
 import CustomText from "../customText/CustomText";
 import { supabase } from "../../lib/supabase";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 let baseUrl = "https://api.momenel.com";
 
 const ChangeBirthday = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const [oldData, setOldData] = useState({});
   const [birthday, setBirthday] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -102,15 +104,39 @@ const ChangeBirthday = ({ navigation }) => {
     return formattedDate;
   };
   return (
-    <Pressable onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+    <Pressable
+      onPress={Keyboard.dismiss}
+      style={{ flex: 1, backgroundColor: mode === "dark" ? "#333333" : "#fff" }}
+    >
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: mode === "dark" ? "#333333" : "#fff" },
+        ]}
+      >
         {isLoading ? (
-          <ActivityIndicator size="small" />
+          <ActivityIndicator
+            size="small"
+            color={mode === "dark" ? "white" : "black"}
+          />
         ) : (
           <>
-            <CustomText style={styles.label}>Birthday</CustomText>
+            <CustomText
+              style={[
+                styles.label,
+                { color: mode === "dark" ? "white" : "black" },
+              ]}
+            >
+              Birthday
+            </CustomText>
             <TextInput
-              style={styles.input}
+              style={[
+                styles.input,
+                {
+                  color: mode === "dark" ? "white" : "black",
+                  backgroundColor: mode === "dark" ? "#555555" : "#f0f0f0",
+                },
+              ]}
               value={birthday}
               onChangeText={(t) => {
                 setBirthday(formatDate(t));

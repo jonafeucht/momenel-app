@@ -2,33 +2,39 @@ import { ScrollView, Pressable } from "react-native";
 import SettingsTab from "../app/components/Settings/SettingsTab";
 import { supabase } from "../app/lib/supabase";
 import CustomText from "../app/components/customText/CustomText";
+import { useBoundStore } from "../app/Store/useBoundStore";
 
 const Settings = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: "white" }}
+      style={{ flex: 1, backgroundColor: mode === "dark" ? "black" : "white" }}
       contentContainerStyle={{ alignItems: "center", paddingTop: "2%" }}
     >
       <SettingsTab
         icon={"person-circle-outline"}
         title="Account"
         onPress={() => navigation.navigate("Account")}
+        mode={mode}
       />
 
       <SettingsTab
         icon={"close-circle"}
         title="Blocked Accounts"
         onPress={() => navigation.navigate("Blocked")}
+        mode={mode}
       />
       <SettingsTab
         icon={"mail"}
         title="Support"
         onPress={() => navigation.navigate("Support")}
+        mode={mode}
       />
       <SettingsTab
         icon={"ios-megaphone"}
         title="Invite Friends"
         onPress={() => navigation.navigate("Invite")}
+        mode={mode}
       />
 
       <Pressable
@@ -40,7 +46,7 @@ const Settings = ({ navigation }) => {
           width: "90%",
           paddingHorizontal: "5%",
           paddingVertical: "3%",
-          backgroundColor: "#e7e7e7",
+          backgroundColor: mode === "dark" ? "#333333" : "#e7e7e7", // Adjusting the button background color
           borderRadius: 10,
           marginTop: 20,
         }}
@@ -51,7 +57,7 @@ const Settings = ({ navigation }) => {
             fontWeight: "bold",
             fontFamily: "Nunito_600SemiBold",
             marginLeft: 0,
-            color: "black",
+            color: mode === "dark" ? "white" : "black", // Adjusting the text color
           }}
         >
           Logout

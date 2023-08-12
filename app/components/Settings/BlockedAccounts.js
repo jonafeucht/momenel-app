@@ -6,10 +6,12 @@ import CustomText from "../customText/CustomText";
 import { supabase } from "../../lib/supabase";
 import { FlashList } from "@shopify/flash-list";
 import * as Haptics from "expo-haptics";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 let baseUrl = "https://api.momenel.com";
 
 const BlockedAccounts = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const [isLoading, setIsLoading] = useState(true);
   const [blockedAccounts, setBlockedAccounts] = useState([]);
 
@@ -94,7 +96,9 @@ const BlockedAccounts = ({ navigation }) => {
   const size50 = useMemo(() => scale(35), []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+    <View
+      style={{ flex: 1, backgroundColor: mode === "dark" ? "#333333" : "#fff" }}
+    >
       {isLoading ? (
         <View style={{ paddingTop: "10%" }}>
           <ActivityIndicator />
@@ -108,7 +112,12 @@ const BlockedAccounts = ({ navigation }) => {
             paddingBottom: "10%",
           }}
         >
-          <CustomText style={{ fontSize: 18, color: "#6D6D6D" }}>
+          <CustomText
+            style={{
+              fontSize: 18,
+              color: mode === "dark" ? "white" : "#6D6D6D",
+            }}
+          >
             No blocked accounts
           </CustomText>
         </View>
@@ -123,12 +132,16 @@ const BlockedAccounts = ({ navigation }) => {
                   id: account.profile.username,
                 })
               }
+              style={{
+                marginBottom: 5,
+              }}
             >
               <View
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
                   padding: 16,
+                  backgroundColor: mode === "dark" ? "#444444" : "white",
                 }}
               >
                 <Image
@@ -142,7 +155,11 @@ const BlockedAccounts = ({ navigation }) => {
                   }}
                 />
                 <View style={{ marginLeft: "3%" }}>
-                  <CustomText>{account.profile.username}</CustomText>
+                  <CustomText
+                    style={{ color: mode === "dark" ? "white" : "black" }}
+                  >
+                    {account.profile.username}
+                  </CustomText>
                 </View>
                 <View style={{ flex: 1 }} />
                 <Pressable
@@ -155,14 +172,16 @@ const BlockedAccounts = ({ navigation }) => {
                       alignItems: "center",
                     },
                     account.isBlocked
-                      ? { backgroundColor: "#ccc" }
+                      ? {
+                          backgroundColor: mode === "dark" ? "#555555" : "#ccc",
+                        }
                       : { backgroundColor: "#FF3F81" },
                   ]}
                 >
                   <CustomText
                     style={
                       account.isBlocked
-                        ? { color: "#6D6D6D" }
+                        ? { color: mode === "dark" ? "white" : "#6D6D6D" }
                         : { color: "white" }
                     }
                   >

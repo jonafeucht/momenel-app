@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { scale } from "../../utils/Scale";
 
 const SupportScreen = () => {
+  const mode = useBoundStore((state) => state.mode);
   const username = useBoundStore((state) => state.username);
   const handleCopyEmail = () => {
     Clipboard.setStringAsync("hello@momenel.com");
@@ -37,10 +38,15 @@ const SupportScreen = () => {
     );
   };
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: mode === "dark" ? "#333333" : "white",
+      }}
+    >
       <View
         style={{
-          backgroundColor: "#e7e7e9",
+          backgroundColor: mode === "dark" ? "#444444" : "#e7e7e9",
           padding: "5%",
           marginHorizontal: "7%",
           marginTop: "4%",
@@ -54,11 +60,12 @@ const SupportScreen = () => {
             fontWeight: "bold",
             marginBottom: 16,
             marginTop: "2%",
+            color: mode === "dark" ? "white" : "black",
           }}
         >
           Need help?
         </CustomText>
-        <CustomText>
+        <CustomText style={{ color: mode === "dark" ? "white" : "black" }}>
           Our team is here to help. If you have any questions or issues, please
           press the button below to send us an email.
         </CustomText>
@@ -85,7 +92,7 @@ const SupportScreen = () => {
         style={{
           marginHorizontal: "7%",
           marginTop: "5%",
-          backgroundColor: "#e7e7e9",
+          backgroundColor: mode === "dark" ? "#444444" : "#e7e7e9",
           paddingHorizontal: "5%",
           paddingVertical: "5%",
           borderRadius: 10,
@@ -94,6 +101,7 @@ const SupportScreen = () => {
         <CustomText
           style={{
             fontSize: 14,
+            color: mode === "dark" ? "white" : "black",
           }}
         >
           If the button above does not work, please send an email to:
