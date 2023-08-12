@@ -45,7 +45,7 @@ const BottomFlatSheet = (props) => {
         {...props}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
-        opacity={mode === "dark" ? 0.7 : 0.5}
+        opacity={mode === "dark" ? 0.3 : 0.5}
       />
     ),
     []

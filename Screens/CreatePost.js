@@ -235,7 +235,7 @@ const CreatePost = ({ navigation }) => {
       } else {
         setIsPosting(false);
         setIsPostingSuccessful(true);
-        setConfrimationMessage("Your post has been created successfully.");
+        setConfrimationMessage("");
       }
     } else {
       setIsPosting(false);
@@ -489,22 +489,24 @@ const CreatePost = ({ navigation }) => {
         <StatusOverlay
           headerHeight={headerHeight}
           status={"Submitting your post..."}
-          message={"This may take a few seconds..."}
+          message={"This may take a few seconds! Hang tight."}
           showProfileButton={false}
           navigation={navigation}
+          mode={mode}
         />
       )}
       {isPostingSuccessful && (
         <StatusOverlay
           headerHeight={headerHeight}
-          status={"Post submitted successfully"}
+          status={"Post submitted successfully!"}
           message={
             confrimationMessage
               ? confrimationMessage
-              : "Post submitted successfully"
+              : "Post submitted successfully."
           }
           showProfileButton={confrimationMessage ? true : false}
           navigation={navigation}
+          mode={mode}
         />
       )}
     </KeyboardAvoidingView>
