@@ -26,8 +26,10 @@ const Notifications = ({ navigation }) => {
   );
   const [isLoading, setisLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
+    setIsFetching(true);
     if (notifications.length === 0) {
       fetchNotificationsWrapper({ isRefreshing: true });
       handleNotificationsRead();
@@ -46,6 +48,7 @@ const Notifications = ({ navigation }) => {
     await fetchNotifications({ isRefreshing: true });
     setIsRefreshing(false);
     setisLoading(false);
+    setIsFetching(false);
   };
 
   const handleRefresh = async () => {
@@ -211,7 +214,10 @@ const Notifications = ({ navigation }) => {
             marginBottom: headerHeight,
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator
+            size="small"
+            color={mode === "dark" ? "white" : "#0000ff"}
+          />
         </View>
       ) : (
         <FlashList
@@ -219,8 +225,15 @@ const Notifications = ({ navigation }) => {
           renderItem={({ item, index }) =>
             renderItem({ item, index, isRead: item.isRead, type: item.type })
           }
-          onEndReached={() => {
-            fetchNotifications({ isRefreshing: false });
+          onEndReached={async () => {
+            try {
+              setIsFetching(true); // Set fetching to true when fetching more notifications
+              await fetchNotifications({ isRefreshing: false });
+            } catch (error) {
+              console.error("Error fetching more notifications:", error);
+            } finally {
+              setIsFetching(false); // Set fetching to false after fetching more notifications
+            }
           }}
           estimatedItemSize={100}
           refreshControl={
@@ -231,10 +244,12 @@ const Notifications = ({ navigation }) => {
             />
           }
           ListFooterComponent={
-            <ActivityIndicator
-              animating={isLoading}
-              color={mode === "dark" ? "white" : "#0000ff"}
-            />
+            isFetching && (
+              <ActivityIndicator
+                size="small"
+                color={mode === "dark" ? "white" : "#0000ff"}
+              />
+            )
           }
           ListEmptyComponent={
             <View
