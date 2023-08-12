@@ -101,9 +101,7 @@ export default function App() {
       if (storedMode !== null) {
         setMode(storedMode);
       }
-    } catch (error) {
-      console.error("Failed to fetch the mode from storage", error);
-    }
+    } catch (e) {}
   };
 
   useEffect(() => {

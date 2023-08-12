@@ -13,11 +13,11 @@ import { scale } from "../app/utils/Scale";
 import GradientText from "../app/components/customText/GradientText";
 import { useHeaderHeight } from "@react-navigation/elements";
 import CustomText from "../app/components/customText/CustomText";
-import LinearGradientButton from "../app/components/Buttons/LinearGradientButton";
 import { RelativeTime } from "../app/utils/RelativeTime";
 import { useBoundStore } from "../app/Store/useBoundStore";
 
 const Notifications = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const headerHeight = useHeaderHeight();
   const notifications = useBoundStore((state) => state.notifications);
   const fetchNotifications = useBoundStore((state) => state.fetchNotifications);
@@ -91,6 +91,7 @@ const Notifications = ({ navigation }) => {
   };
 
   const scaledHeight = useMemo(() => scale(30), []);
+
   const renderItem = ({ item, index, isRead, type }) => {
     return (
       <Pressable
@@ -102,7 +103,15 @@ const Notifications = ({ navigation }) => {
             maxWidth: Dimensions.get("window").width,
             flexDirection: "row",
           },
-          { backgroundColor: isRead ? "#fff" : "#f2f2f2" },
+          {
+            backgroundColor: isRead
+              ? mode === "dark"
+                ? "black"
+                : "#fff"
+              : mode === "dark"
+              ? "#3a3a3a"
+              : "#f2f2f2",
+          },
         ]}
         onPress={() => handlePress(index)}
       >
@@ -137,10 +146,16 @@ const Notifications = ({ navigation }) => {
               style={{
                 flexWrap: "wrap",
                 maxWidth: "70%",
+                color: mode === "dark" ? "white" : "#262628",
               }}
             >
               {type === "system" ? (
-                <CustomText style={{ fontFamily: "Nunito_700Bold" }}>
+                <CustomText
+                  style={{
+                    fontFamily: "Nunito_700Bold",
+                    color: mode === "dark" ? "white" : "#262628",
+                  }}
+                >
                   {"your" + ` `}
                 </CustomText>
               ) : item.user?.username ? (
@@ -168,7 +183,12 @@ const Notifications = ({ navigation }) => {
                 ? item.system_message
                 : ""}
             </CustomText>
-            <CustomText style={{ color: "gray", fontSize: 14 }}>
+            <CustomText
+              style={{
+                color: mode === "dark" ? "#BABABA" : "#999999",
+                fontSize: 14,
+              }}
+            >
               {RelativeTime(item.created_at)}
             </CustomText>
           </View>
@@ -177,12 +197,15 @@ const Notifications = ({ navigation }) => {
     );
   };
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View
+      style={{ flex: 1, backgroundColor: mode === "dark" ? "black" : "white" }}
+      key={mode}
+    >
       {isLoading ? (
         <View
           style={{
             flex: 1,
-            backgroundColor: "white",
+            backgroundColor: mode === "dark" ? "black" : "white",
             alignItems: "center",
             justifyContent: "center",
             marginBottom: headerHeight,
@@ -204,10 +227,14 @@ const Notifications = ({ navigation }) => {
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={handleRefresh}
+              tintColor={mode === "dark" ? "white" : "black"}
             />
           }
           ListFooterComponent={
-            <ActivityIndicator animating={isLoading && !isRefreshing} />
+            <ActivityIndicator
+              animating={isLoading}
+              color={mode === "dark" ? "white" : "#0000ff"}
+            />
           }
           ListEmptyComponent={
             <View
