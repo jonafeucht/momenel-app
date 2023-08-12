@@ -124,10 +124,13 @@ const StackNavigator = ({}) => {
         component={ByUserList}
         options={{
           headerTitleStyle: { fontFamily: "Nunito_700Bold" },
+          headerTintColor: mode === "dark" ? "white" : "black",
           headerBackTitle: "",
           headerShadowVisible: false,
-          headerTintColor: "black",
           animation: "fade_from_bottom",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#0E0E0E" : "#F9F9F9",
+          },
         }}
       />
 

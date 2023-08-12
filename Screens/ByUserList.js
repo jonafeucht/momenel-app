@@ -1,12 +1,6 @@
 // Description: This screen will show the list of users who liked the post or reposted the post or tipped the post.
 
-import {
-  ActivityIndicator,
-  Alert,
-  Dimensions,
-  StyleSheet,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import UserList from "../app/components/UserList";
@@ -14,10 +8,12 @@ import * as Haptics from "expo-haptics";
 import CustomText from "../app/components/customText/CustomText";
 import { scale } from "../app/utils/Scale";
 import { supabase } from "../app/lib/supabase";
+import { useBoundStore } from "../app/Store/useBoundStore";
 
 let baseUrl = "https://api.momenel.com";
 
 const ByUserList = ({ route, navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const { type, Id } = route.params;
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -158,12 +154,20 @@ const ByUserList = ({ route, navigation }) => {
       return (
         <View style={{ marginHorizontal: "5%", marginVertical: "2%" }}>
           <CustomText
-            style={{ fontFamily: "Nunito_800ExtraBold", fontSize: scale(25) }}
+            style={{
+              fontFamily: "Nunito_800ExtraBold",
+              fontSize: scale(25),
+              color: mode === "dark" ? "white" : "black",
+            }}
           >
             {kFormatter(data.length)}
           </CustomText>
           <CustomText
-            style={{ fontFamily: "Nunito_500Medium", fontSize: scale(15) }}
+            style={{
+              fontFamily: "Nunito_500Medium",
+              fontSize: scale(15),
+              color: mode === "dark" ? "white" : "black",
+            }}
           >
             {type === "followers" ? "Followers" : "Following"}
           </CustomText>
@@ -177,8 +181,16 @@ const ByUserList = ({ route, navigation }) => {
   // return of isLoading
   if (isLoading) {
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
-        <ActivityIndicator color="black" style={{ marginTop: "2%" }} />
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: mode === "dark" ? "black" : "white",
+        }}
+      >
+        <ActivityIndicator
+          color={mode === "dark" ? "white" : "black"}
+          style={{ marginTop: "2%" }}
+        />
       </View>
     );
   }
@@ -188,7 +200,12 @@ const ByUserList = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: mode === "dark" ? "black" : "white",
+      }}
+    >
       <FlashList
         ListHeaderComponent={renderHeaderComponent}
         data={data}
@@ -207,31 +224,3 @@ const ByUserList = ({ route, navigation }) => {
 };
 
 export default ByUserList;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  not_following: {
-    width: Dimensions.get("window").width / 4,
-    backgroundColor: "#F2F2F2",
-    borderColor: "#F2F2F2",
-    borderWidth: 1.1,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-  },
-  following: {
-    width: Dimensions.get("window").width / 4,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderColor: "#B5B5B5",
-    borderWidth: 1.1,
-  },
-});

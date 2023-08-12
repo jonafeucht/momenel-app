@@ -5,6 +5,7 @@ import { Image } from "expo-image";
 import CustomText from "./customText/CustomText";
 import GradientText from "./customText/GradientText";
 import { Ionicons } from "@expo/vector-icons";
+import { useBoundStore } from "../Store/useBoundStore";
 
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -18,6 +19,7 @@ const UserList = ({
   onPress,
   navigation,
 }) => {
+  const mode = useBoundStore((state) => state.mode);
   const size = useMemo(() => scale(25), []);
   const fontSize = useMemo(() => scale(13), []);
 
@@ -29,6 +31,7 @@ const UserList = ({
         justifyContent: "space-between",
         paddingVertical: 11,
         paddingHorizontal: 20,
+        backgroundColor: mode === "dark" ? "black" : "white",
       }}
     >
       <Pressable
@@ -64,6 +67,7 @@ const UserList = ({
               fontFamily: "Nunito_600SemiBold",
               fontSize: fontSize,
               width: Dimensions.get("window").width / 2.4,
+              color: mode === "dark" ? "white" : "black",
             }}
             numberOfLines={1}
           >
@@ -73,7 +77,25 @@ const UserList = ({
       </Pressable>
       {isFollowing !== null && (
         <Pressable
-          style={!isFollowing ? styles.not_following : styles.following}
+          style={{
+            width: Dimensions.get("window").width / 4,
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 3,
+            backgroundColor:
+              mode === "dark"
+                ? isFollowing
+                  ? "#2A2A2A"
+                  : "#3A3A3A"
+                : isFollowing
+                ? "white"
+                : "#F2F2F2",
+            borderColor:
+              mode === "dark" ? "#3A3A3A" : isFollowing ? "#B5B5B5" : "#F2F2F2",
+            borderWidth: 1.1,
+          }}
           onPress={() => onPress(id)}
         >
           {!isFollowing ? (
@@ -82,7 +104,7 @@ const UserList = ({
             <CustomText
               style={{
                 fontSize: fontSize,
-                color: "#8A8A8A",
+                color: mode === "dark" ? "#8A8A8A" : "#8A8A8A",
                 fontFamily: "Nunito_500Medium",
               }}
             >
