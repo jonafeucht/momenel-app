@@ -2,8 +2,10 @@ import { View, Text, Pressable } from "react-native";
 import React, { useMemo } from "react";
 import CustomText from "../customText/CustomText";
 import { scale } from "../../utils/Scale";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const AmntTag = ({ value, txt, onPress, disabled = false }) => {
+  const mode = useBoundStore((state) => state.mode);
   function kFormatter(num) {
     return Math.abs(num) <= 9999
       ? num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -27,6 +29,7 @@ const AmntTag = ({ value, txt, onPress, disabled = false }) => {
         style={{
           fontFamily: "Nunito_700Bold",
           fontSize: scale12 + 6,
+          color: mode === "dark" ? "#fff" : "#000",
         }}
       >
         {kFormatter(value)}
@@ -36,7 +39,8 @@ const AmntTag = ({ value, txt, onPress, disabled = false }) => {
           fontFamily: "Nunito_500Medium",
           fontSize: scale12 - 1,
           paddingLeft: "1%",
-          color: "#757575",
+          // color: "#757575",
+          color: mode === "dark" ? "#8A8A8A" : "#757575",
         }}
       >
         {txt}

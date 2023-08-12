@@ -11,6 +11,7 @@ import StructuredText from "../Posts/StructuredText";
 import DetachedBottomSheetWithScroll from "../BottomFlatSheet/DetachedBottomSheetWithScroll";
 import BottomSheet from "../BottomFlatSheet/BottomSheet";
 import { useRoute } from "@react-navigation/native";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const blurhashBase =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -31,6 +32,7 @@ const ProfileHeader = ({
   isRefreshing,
   blurhash = blurhashBase,
 }) => {
+  const mode = useBoundStore((state) => state.mode);
   const { name: RouteName } = useRoute();
   const { top: topInset, bottom: BottomInsets } = useSafeAreaInsets();
   const [showBottomSheeModal, setShowBottomSheetModal] = useState(false);
@@ -76,7 +78,7 @@ const ProfileHeader = ({
     <View
       style={[
         {
-          backgroundColor: "white",
+          backgroundColor: mode === "dark" ? "black" : "white",
           marginTop: topInset,
           width: Dimensions.get("window").width,
           overflow: "hidden",
@@ -113,7 +115,7 @@ const ProfileHeader = ({
             <Ionicons
               name="md-chevron-back"
               size={scale(17)}
-              color="black"
+              color={mode === "dark" ? "white" : "black"}
               style={{ marginTop: 2 }}
             />
           )}
@@ -123,6 +125,7 @@ const ProfileHeader = ({
               alignItems: "center",
               fontFamily: "Nunito_700Bold",
               fontSize: scale(21.5),
+              color: mode === "dark" ? "white" : "black",
             }}
             numberOfLines={2}
             adjustsFontSizeToFit={true}
@@ -137,7 +140,11 @@ const ProfileHeader = ({
             }}
             style={{ marginTop: "2%" }}
           >
-            <Ionicons name="ellipsis-vertical" size={scale(16)} color="black" />
+            <Ionicons
+              name="ellipsis-vertical"
+              size={scale(16)}
+              color={mode === "dark" ? "white" : "black"}
+            />
           </Pressable>
         ) : (
           <Pressable
@@ -146,7 +153,11 @@ const ProfileHeader = ({
             }}
             style={{ marginTop: "2%" }}
           >
-            <Ionicons name="settings-sharp" size={scale(16)} color="black" />
+            <Ionicons
+              name="settings-sharp"
+              size={scale(16)}
+              color={mode === "dark" ? "white" : "black"}
+            />
           </Pressable>
         )}
       </View>
@@ -173,7 +184,7 @@ const ProfileHeader = ({
               style={{
                 fontFamily: "Nunito_500Medium",
                 fontSize: scale(13),
-                color: "#7E7E7E",
+                color: mode === "dark" ? "#D3D3D3" : "#7E7E7E",
               }}
               numberOfLines={4}
             >
@@ -188,7 +199,6 @@ const ProfileHeader = ({
             >
               <StructuredText
                 mentionHashtagPress={mentionHashtagClick}
-                mentionHashtagColor={"#8759F2"}
                 maxCharCount={160}
                 style={{
                   fontFamily: "Nunito_600SemiBold",
@@ -212,7 +222,7 @@ const ProfileHeader = ({
               <Ionicons
                 name="ios-link"
                 size={scale12 + 3}
-                color="#6E31E2"
+                color={mode === "dark" ? "#7C7C7C" : "#6E31E2"}
                 style={{ transform: [{ rotate: "-45deg" }] }}
               />
               <CustomText
@@ -233,8 +243,9 @@ const ProfileHeader = ({
         {profile_url && (
           <View
             style={{
-              justifyContent: "center",
+              justifyContent: "flex-start",
               alignItems: "center",
+              marginTop: "2%",
             }}
           >
             <Pressable
@@ -273,7 +284,7 @@ const ProfileHeader = ({
           flexDirection: "row",
           justifyContent: "space-evenly",
           alignItems: "flex-start",
-          marginTop: "1%",
+          marginTop: "2%",
           marginBottom: "3%",
         }}
       >
@@ -329,7 +340,11 @@ const ProfileHeader = ({
               },
             ]}
           >
-            <CustomText style={{ color: "black" }}>Edit Profile</CustomText>
+            <CustomText
+              style={{ color: mode === "dark" ? "#BDBDBD" : "black" }}
+            >
+              Edit Profile
+            </CustomText>
           </Pressable>
         ) : (
           <Pressable
@@ -347,11 +362,16 @@ const ProfileHeader = ({
                 width: Dimensions.get("window").width * 0.9,
               },
               isFollowing
-                ? { borderColor: "black" }
-                : { backgroundColor: "#E0E0E0", borderColor: "#E0E0E0" },
+                ? { borderColor: mode === "dark" ? "#E0E0E0" : "black" }
+                : {
+                    backgroundColor: mode === "dark" ? "#4A4A4A" : "#E0E0E0",
+                    borderColor: mode === "dark" ? "#4A4A4A" : "#E0E0E0",
+                  },
             ]}
           >
-            <CustomText style={{ color: "black" }}>
+            <CustomText
+              style={{ color: mode === "dark" ? "#E0E0E0" : "black" }}
+            >
               {isFollowing ? "Following" : "Follow"}
             </CustomText>
           </Pressable>
@@ -399,7 +419,7 @@ const ProfileHeader = ({
               flexDirection: "row",
               alignItems: "center",
               width: Dimensions.get("window").width * 0.9,
-              backgroundColor: "#EAEAEA",
+              backgroundColor: mode === "dark" ? "#4A4A4A" : "#EAEAEA",
               paddingVertical: 15,
               paddingHorizontal: 18,
               marginBottom: 15,
@@ -407,11 +427,16 @@ const ProfileHeader = ({
             }}
             onPress={() => handleBlock()}
           >
-            <Ionicons name="ios-flag" size={20} color="black" />
+            <Ionicons
+              name="ios-flag"
+              size={20}
+              color={mode === "dark" ? "#E0E0E0" : "black"}
+            />
             <CustomText
               style={{
                 fontSize: 16,
                 marginLeft: 10,
+                color: mode === "dark" ? "#E0E0E0" : "black",
               }}
             >
               Block
@@ -422,10 +447,9 @@ const ProfileHeader = ({
               flexDirection: "row",
               alignItems: "center",
               width: Dimensions.get("window").width * 0.9,
-              backgroundColor: "#EAEAEA",
+              backgroundColor: mode === "dark" ? "#4A4A4A" : "#EAEAEA",
               paddingVertical: 15,
               paddingHorizontal: 18,
-
               borderRadius: 12,
             }}
             onPress={() => {
@@ -437,11 +461,16 @@ const ProfileHeader = ({
               });
             }}
           >
-            <Ionicons name="ios-alert-circle-outline" size={20} color="black" />
+            <Ionicons
+              name="ios-alert-circle-outline"
+              size={20}
+              color={mode === "dark" ? "#E0E0E0" : "black"}
+            />
             <CustomText
               style={{
                 fontSize: 16,
                 marginLeft: 10,
+                color: mode === "dark" ? "#E0E0E0" : "black",
               }}
             >
               Report

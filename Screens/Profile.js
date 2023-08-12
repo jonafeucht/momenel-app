@@ -22,6 +22,7 @@ import { useBoundStore } from "../app/Store/useBoundStore";
 let baseUrl = "https://api.momenel.com";
 
 const Profile = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const { params: RouteParams } = useRoute();
   const [profile, setProfile] = useState({});
   const [data, setData] = useState([]);
@@ -373,7 +374,7 @@ const Profile = ({ navigation }) => {
     return (
       <View
         style={{
-          backgroundColor: "white",
+          backgroundColor: mode === "dark" ? "black" : "white",
           justifyContent: "center",
           alignItems: "center",
           marginTop: "5%",
@@ -384,6 +385,7 @@ const Profile = ({ navigation }) => {
             fontSize: 20,
             textAlign: "center",
             marginHorizontal: "4%",
+            color: mode === "dark" ? "white" : "black",
           }}
         >
           No Posts
@@ -395,22 +397,27 @@ const Profile = ({ navigation }) => {
   const keyExtractor = (item) => item.type + item.id;
 
   return (
-    <View style={{ height: "100%", backgroundColor: "white" }}>
+    <View
+      style={{
+        height: "100%",
+        backgroundColor: mode === "dark" ? "black" : "white",
+      }}
+    >
       {isLoading === true ? (
         <View
           style={{
             height: "100%",
-            backgroundColor: "white",
+            backgroundColor: mode === "dark" ? "black" : "white",
             justifyContent: "center",
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator color={mode === "dark" ? "white" : "#0000ff"} />
         </View>
       ) : profile?.isBlockedByYou || profile?.isBlockedByUser ? (
         <View
           style={{
             height: "100%",
-            backgroundColor: "white",
+            backgroundColor: mode === "dark" ? "black" : "white",
             justifyContent: "center",
             alignContent: "center",
           }}
@@ -423,7 +430,7 @@ const Profile = ({ navigation }) => {
                 navigation.goBack();
               }}
               style={{
-                backgroundColor: "#EAEAEA",
+                backgroundColor: mode === "dark" ? "#4A4A4A" : "#EAEAEA",
                 borderRadius: 40,
                 opacity: 0.8,
                 padding: 8,
@@ -434,7 +441,11 @@ const Profile = ({ navigation }) => {
                 width: scale(30),
               }}
             >
-              <Ionicons name="md-chevron-back" size={scale(16)} color="black" />
+              <Ionicons
+                name="md-chevron-back"
+                size={scale(16)}
+                color={mode === "dark" ? "#E0E0E0" : "black"}
+              />
             </Pressable>
           </View>
           {profile?.isBlockedByYou ? (
@@ -445,6 +456,7 @@ const Profile = ({ navigation }) => {
                   fontFamily: "Nunito_800ExtraBold",
                   textAlign: "center",
                   marginHorizontal: "4%",
+                  color: mode === "dark" ? "#E0E0E0" : "black",
                 }}
               >
                 This profile is Blocked
@@ -455,6 +467,7 @@ const Profile = ({ navigation }) => {
                   textAlign: "center",
                   marginTop: 15,
                   marginHorizontal: "4%",
+                  color: mode === "dark" ? "#E0E0E0" : "black",
                 }}
               >
                 You can't view this profile before unblocking it
@@ -464,7 +477,7 @@ const Profile = ({ navigation }) => {
                   flexDirection: "row",
                   alignItems: "center",
                   width: Dimensions.get("window").width * 0.9,
-                  backgroundColor: "#EAEAEA",
+                  backgroundColor: mode === "dark" ? "#4A4A4A" : "#EAEAEA",
                   paddingVertical: 15,
                   paddingHorizontal: 18,
                   marginBottom: 15,
@@ -473,11 +486,16 @@ const Profile = ({ navigation }) => {
                 }}
                 onPress={() => handleBlock()}
               >
-                <Ionicons name="ios-flag" size={20} color="black" />
+                <Ionicons
+                  name="ios-flag"
+                  size={20}
+                  color={mode === "dark" ? "#E0E0E0" : "black"}
+                />
                 <CustomText
                   style={{
                     fontSize: 16,
                     marginLeft: 10,
+                    color: mode === "dark" ? "#E0E0E0" : "black",
                   }}
                 >
                   Unblock
@@ -497,12 +515,18 @@ const Profile = ({ navigation }) => {
                   fontSize: 40,
                   fontFamily: "Nunito_800ExtraBold",
                   textAlign: "center",
+                  color: mode === "dark" ? "#E0E0E0" : "black",
                 }}
               >
                 Blocked
               </CustomText>
               <CustomText
-                style={{ fontSize: 20, textAlign: "center", marginTop: 15 }}
+                style={{
+                  fontSize: 20,
+                  textAlign: "center",
+                  marginTop: 15,
+                  color: mode === "dark" ? "#E0E0E0" : "black",
+                }}
               >
                 You can't view this profile because you have been blocked!
               </CustomText>
@@ -542,7 +566,7 @@ const Profile = ({ navigation }) => {
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={handleRefresh}
-              tintColor={"black"}
+              tintColor={mode === "dark" ? "white" : "black"}
               progressViewOffset={topInset + 10}
             />
           }

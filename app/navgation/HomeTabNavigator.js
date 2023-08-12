@@ -186,7 +186,7 @@ const HomeNavigator = ({ navigation }) => {
               return <TabBarProfileIcon size={IconSize} focused={focused} />;
             }
           },
-          unmountOnBlur: true,
+          // unmountOnBlur: true,
         }}
         listeners={{
           focus: () => {
