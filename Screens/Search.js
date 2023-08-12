@@ -19,10 +19,12 @@ import { FlashList } from "@shopify/flash-list";
 import Post from "../app/components/Posts/Post";
 import { supabase } from "../app/lib/supabase";
 import { Alert } from "react-native";
+import { useBoundStore } from "../app/Store/useBoundStore";
 
 let baseUrl = "https://api.momenel.com";
 
 const Search = ({ navigation, route }) => {
+  const mode = useBoundStore((state) => state.mode);
   const { query } = route.params;
   const [text, onChangeText] = useState("");
   const [search, setSearch] = useState("");
@@ -163,6 +165,7 @@ const Search = ({ navigation, route }) => {
         setFrom={setFrom}
         setTo={setTo}
         setQueryResults={setQueryResults}
+        mode={mode}
       />
     );
   };
@@ -224,7 +227,9 @@ const Search = ({ navigation, route }) => {
         !showFooter && { marginTop: -15 },
       ]}
     >
-      {showFooter && <ActivityIndicator color="#0000ff" />}
+      {showFooter && (
+        <ActivityIndicator color={mode === "dark" ? "white" : "#0000ff"} />
+      )}
     </View>,
     [showFooter]
   );
@@ -394,13 +399,19 @@ const Search = ({ navigation, route }) => {
       : { width: "20%" };
 
     return (
-      <View style={{ marginHorizontal: "5%", marginTop: "1%" }}>
+      <View
+        style={{
+          marginHorizontal: "5%",
+          marginTop: "1%",
+        }}
+      >
         <CustomText
           numberOfLines={1}
           style={{
             fontFamily: "Nunito_700Bold",
             fontSize: scale(16),
             marginBottom: "2%",
+            color: mode === "dark" ? "white" : "black",
           }}
         >
           #{queryResults.title}
@@ -445,11 +456,16 @@ const Search = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ height: "100%", backgroundColor: "white" }}>
+    <View
+      style={{
+        height: "100%",
+        backgroundColor: mode === "dark" ? "black" : "white",
+      }}
+    >
       <SafeAreaView
         style={{
           display: "flex",
-          backgroundColor: "white",
+          backgroundColor: mode === "dark" ? "#0E0E0E" : "white",
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
@@ -461,7 +477,7 @@ const Search = ({ navigation, route }) => {
           style={{
             flexDirection: "row",
             flex: 1,
-            backgroundColor: "#F1F1F2",
+            backgroundColor: mode === "dark" ? "#2A2A2A" : "#F1F1F2",
             marginRight: "2%",
             height: "100%",
             minHeight: scale(32),
@@ -477,13 +493,14 @@ const Search = ({ navigation, route }) => {
           <TextInput
             autoFocus={query ? false : true}
             style={{
-              backgroundColor: "#F1F1F2",
+              backgroundColor: mode === "dark" ? "#2A2A2A" : "#F1F1F2",
               fontFamily: "Nunito_600SemiBold",
               fontSize: 14,
               alignItems: "center",
               flex: 1,
               height: "100%",
               marginLeft: "3%",
+              color: mode === "dark" ? "white" : "black",
             }}
             value={text}
             onChangeText={handleSearchChange}
@@ -497,6 +514,7 @@ const Search = ({ navigation, route }) => {
               fontFamily: "Nunito_600SemiBold",
               fontSize: 14,
               marginRight: "3%",
+              color: mode === "dark" ? "white" : "black",
             }}
           >
             Cancel
@@ -506,7 +524,7 @@ const Search = ({ navigation, route }) => {
       {suggestions.length > 0 ? (
         <View
           style={{
-            backgroundColor: "white",
+            backgroundColor: mode === "dark" ? "#0E0E0E" : "white",
             height: "100%",
           }}
         >
@@ -561,6 +579,7 @@ const Suggestion = ({
   setTo,
   setFrom,
   setQueryResults,
+  mode,
 }) => {
   return (
     <Pressable
@@ -568,7 +587,8 @@ const Suggestion = ({
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderBottomWidth: 1,
-        borderBottomColor: "#F1F1F2",
+        borderBottomColor: mode === "dark" ? "#2A2A2A" : "#F1F1F2",
+        backgroundColor: mode === "dark" ? "#0E0E0E" : "white",
       }}
       onPress={() => {
         if (item.username) {
@@ -617,7 +637,7 @@ const Suggestion = ({
             style={{
               fontFamily: "Nunito_600SemiBold",
               fontSize: scale(14),
-              color: "black",
+              color: mode === "dark" ? "white" : "black",
             }}
           >
             {item.username}
@@ -628,7 +648,7 @@ const Suggestion = ({
           style={{
             fontFamily: "Nunito_600SemiBold",
             fontSize: scale(14),
-            color: "black",
+            color: mode === "dark" ? "white" : "black",
           }}
         >
           #{item.hashtag}
