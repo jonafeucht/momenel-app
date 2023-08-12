@@ -328,7 +328,7 @@ const Discover = ({ navigation }) => {
     return (
       <SafeAreaView
         style={{
-          backgroundColor: "white",
+          backgroundColor: mode === "dark" ? "black" : "white",
           height: "100%",
           marginBottom: 800,
           justifyContent: "center",

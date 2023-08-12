@@ -130,12 +130,12 @@ export default function App() {
       <View
         style={{
           flex: 1,
-          backgroundColor: mode === "dark" ? "#000" : "#fff",
+          backgroundColor: "black",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <ActivityIndicator color={mode === "dark" ? "white" : "#0000ff"} />
+        <ActivityIndicator color={"white"} />
       </View>
     );
   } else if (isError) {
@@ -174,7 +174,12 @@ export default function App() {
           </SafeAreaProvider>
         </GestureHandlerRootView>
       ) : (
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureHandlerRootView
+          style={{
+            flex: 1,
+            backgroundColor: mode === "dark" ? "#000" : "#fff",
+          }}
+        >
           <SafeAreaProvider>
             <PortalProvider>
               <NavigationContainer>
