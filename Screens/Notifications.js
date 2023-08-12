@@ -10,7 +10,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useMemo, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import { scale } from "../app/utils/Scale";
-import GradientText from "../app/components/customText/GradientText";
 import { useHeaderHeight } from "@react-navigation/elements";
 import CustomText from "../app/components/customText/CustomText";
 import { RelativeTime } from "../app/utils/RelativeTime";
@@ -260,11 +259,15 @@ const Notifications = ({ navigation }) => {
                 marginTop: "5%",
               }}
             >
-              <GradientText
-                style={{ fontSize: scaledHeight - 15, textAlign: "center" }}
+              <CustomText
+                style={{
+                  fontSize: scaledHeight - 15,
+                  textAlign: "center",
+                  color: mode === "dark" ? "white" : "#262628",
+                }}
               >
                 No Notifications
-              </GradientText>
+              </CustomText>
             </View>
           }
         />

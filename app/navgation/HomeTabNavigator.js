@@ -164,6 +164,10 @@ const HomeNavigator = ({ navigation }) => {
               );
             }
           },
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
+          headerTintColor: mode === "dark" ? "#fff" : "#000",
         }}
         listeners={{
           focus: () => {
