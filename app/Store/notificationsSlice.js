@@ -73,6 +73,14 @@ export const createNotificationsSlice = (set, get) => ({
         set(() => ({
           notifications: [...notifications],
         }));
+      } else {
+        // upadte the isRead status to true
+        set((state) => ({
+          notifications: state.notifications.map((notification) => {
+            notification.isRead = true;
+            return notification;
+          }),
+        }));
       }
       return;
     } else {

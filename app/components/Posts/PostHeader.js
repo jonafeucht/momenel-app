@@ -199,12 +199,12 @@ const PostHeader = ({
               }}
               onPress={() => onDeletePressWrapper()}
             >
-              <Ionicons name="trash-bin" size={20} color="#D32F2F" />
+              <Ionicons name="trash-bin" size={20} color="#e31b1b" />
               <CustomText
                 style={{
                   fontSize: 16,
                   marginLeft: 10,
-                  color: "#D32F2F",
+                  color: "#e31b1b",
                 }}
               >
                 Delete
@@ -224,12 +224,12 @@ const PostHeader = ({
               }}
               onPress={() => onReportPressWrapper()}
             >
-              <Ionicons name="ios-flag" size={20} color="#D32F2F" />
+              <Ionicons name="ios-flag" size={20} color="#e31b1b" />
               <CustomText
                 style={{
                   fontSize: 16,
                   marginLeft: 10,
-                  color: "#D32F2F",
+                  color: "#e31b1b",
                 }}
               >
                 Report
