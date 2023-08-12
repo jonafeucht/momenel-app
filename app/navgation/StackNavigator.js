@@ -40,11 +40,14 @@ const StackNavigator = ({}) => {
         name="Comments"
         component={Comments}
         options={{
+          headerShadowVisible: false,
+          headerTintColor: mode === "dark" ? "white" : "black",
+          animation: "fade_from_bottom",
           headerTitleStyle: { fontFamily: "Nunito_700Bold" },
           headerBackTitle: "",
-          headerShadowVisible: false,
-          headerTintColor: "black",
-          animation: "fade_from_bottom",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#0E0E0E" : "#F9F9F9",
+          },
         }}
       />
       <Stack.Screen

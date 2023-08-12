@@ -105,6 +105,7 @@ const Comment = ({
   onChangeText,
   textInputRef,
 }) => {
+  const mode = useBoundStore((state) => state.mode);
   const route = useRoute();
   const [isLikedS, setisLikedS] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likes);
@@ -218,7 +219,15 @@ const Comment = ({
             flexDirection: "row",
             paddingHorizontal: "3%",
             paddingVertical: "2%",
-            backgroundColor: highlight ? "#F2F2F2" : "white",
+            backgroundColor: highlight
+              ? mode === "dark"
+                ? "#2A2A2A"
+                : "#F2F2F2"
+              : mode === "dark"
+              ? "black"
+              : "white",
+            borderBottomColor: mode === "dark" ? "#2A2A2A" : "#F2F2F2",
+            borderBottomWidth: 1,
           }}
         >
           <Pressable
@@ -304,7 +313,7 @@ const Comment = ({
             >
               <CustomText
                 style={{
-                  color: "#ADADAD",
+                  color: mode === "dark" ? "#BABABA" : "#ADADAD",
                   fontSize: 13,
                   fontFamily: "Nunito_500Medium",
                 }}
@@ -355,6 +364,7 @@ const Comment = ({
             paddingHorizontal: "5%",
             paddingTop: "2%",
             paddingBottom: "5%",
+            backgroundColor: mode === "dark" ? "#2C2C2C" : "white",
           }}
         >
           <StructuredText

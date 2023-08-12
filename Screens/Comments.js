@@ -22,10 +22,12 @@ import Comment from "../app/components/Posts/Comment";
 import StatusOverlay from "../app/components/StatusOverlay";
 import { supabase } from "../app/lib/supabase";
 import { RefreshControl } from "react-native-gesture-handler";
+import CustomText from "../app/components/customText/CustomText";
 
 let baseUrl = "https://api.momenel.com";
 
 const Comments = ({ route, navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(30);
@@ -261,7 +263,14 @@ const Comments = ({ route, navigation }) => {
   const keyExtractor = useCallback((item) => item.id, []);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: mode === "dark" ? "#000" : "#fff",
+        },
+      ]}
+    >
       {comments === null ? (
         <View
           style={{
@@ -269,7 +278,7 @@ const Comments = ({ route, navigation }) => {
             justifyContent: "center",
           }}
         >
-          <ActivityIndicator color={"black"} />
+          <ActivityIndicator color={mode === "dark" ? "white" : "#0000ff"} />
         </View>
       ) : (
         <FlashList
@@ -287,16 +296,28 @@ const Comments = ({ route, navigation }) => {
                   alignSelf: "center",
                 }}
               >
-                <GradientText
-                  style={{
-                    fontSize: scale(16),
-                    fontFamily: "Nunito_600SemiBold",
-                  }}
-                  adjustsFontSizeToFit={true}
-                  numberOfLines={1}
-                >
-                  Be the first to leave a comment!
-                </GradientText>
+                {mode === "dark" ? (
+                  <CustomText
+                    style={{
+                      fontSize: scale(16),
+                      fontFamily: "Nunito_600SemiBold",
+                      color: "#fff",
+                    }}
+                  >
+                    Be the first to leave a comment!
+                  </CustomText>
+                ) : (
+                  <GradientText
+                    style={{
+                      fontSize: scale(16),
+                      fontFamily: "Nunito_600SemiBold",
+                    }}
+                    adjustsFontSizeToFit={true}
+                    numberOfLines={1}
+                  >
+                    Be the first to leave a comment!
+                  </GradientText>
+                )}
               </View>
             );
           }}
@@ -309,8 +330,7 @@ const Comments = ({ route, navigation }) => {
           decelerationRate={"normal"}
           refreshControl={
             <RefreshControl
-              titleColor={"#000000"}
-              tintColor={"#000000"}
+              tintColor={mode === "dark" ? "white" : "black"}
               refreshing={isRefreshing}
               onRefresh={handleRefresh}
               progressViewOffset={0}
@@ -326,7 +346,7 @@ const Comments = ({ route, navigation }) => {
         keyboardVerticalOffset={headerHeight}
         style={{
           justifyContent: "flex-end",
-          backgroundColor: "white",
+          backgroundColor: mode === "dark" ? "#0E0E0E" : "#fff",
         }}
       >
         <View
@@ -336,9 +356,9 @@ const Comments = ({ route, navigation }) => {
             paddingHorizontal: "3%",
             marginBottom: isKeyboardVisible ? 10 : insets.bottom + 5,
             borderTopWidth: 1,
-            borderTopColor: "#E5E5E5",
+            borderTopColor: mode === "dark" ? "#2A2A2A" : "#E5E5E5",
             paddingTop: "2%",
-            backgroundColor: "white",
+            backgroundColor: mode === "dark" ? "#0E0E0E" : "#fff",
           }}
         >
           {!isKeyboardVisible && (
@@ -359,7 +379,7 @@ const Comments = ({ route, navigation }) => {
               flexDirection: "row",
               flex: 1,
               justifyContent: "space-between",
-              backgroundColor: "#E5E5E5",
+              backgroundColor: mode === "dark" ? "#2A2A2A" : "#E5E5E5",
               marginHorizontal: isKeyboardVisible ? 0 : "3%",
               marginRight: isKeyboardVisible ? "1.5%" : "3%",
               height: "100%",
@@ -382,14 +402,16 @@ const Comments = ({ route, navigation }) => {
               <TextInput
                 ref={textInputRef}
                 style={{
-                  backgroundColor: "#E5E5E5",
+                  backgroundColor: mode === "dark" ? "#2A2A2A" : "#E5E5E5",
                   fontFamily: "Nunito_600SemiBold",
                   fontSize: 15,
+                  color: mode === "dark" ? "#E0E0E0" : "black",
                   alignItems: "center",
                 }}
                 value={text}
                 onChangeText={onChangeText}
                 placeholder="Add a comment..."
+                placeholderTextColor={mode === "dark" ? "#7D7D7D" : "gray"}
                 keyboardType="twitter"
                 multiline={true}
               />
@@ -409,11 +431,13 @@ const Comments = ({ route, navigation }) => {
           )}
         </View>
       </KeyboardAvoidingView>
+
       {/* status overlay */}
       {postingComment && (
         <StatusOverlay
           headerHeight={headerHeight}
           status={"Posting your comment..."}
+          mode={mode}
         />
       )}
       {deletingComment && (
@@ -421,6 +445,7 @@ const Comments = ({ route, navigation }) => {
           headerHeight={headerHeight}
           status={"Deleting comment..."}
           loader={deletingComment}
+          mode={mode}
         />
       )}
     </View>
