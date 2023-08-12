@@ -160,13 +160,16 @@ const StackNavigator = ({}) => {
         name="EditProfile"
         component={EditProfile}
         options={{
-          headerTitleStyle: { fontFamily: "Nunito_700Bold" },
           headerBackTitle: "",
           headerTitle: "Edit Profile",
           headerShadowVisible: false,
           headerTintColor: "black",
           gestureEnabled: false,
           animation: "slide_from_bottom",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#0E0E0E" : "#F9F9F9",
+          },
         }}
       />
       <Stack.Screen

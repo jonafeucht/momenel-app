@@ -1,6 +1,7 @@
-import { View, Text, TextInput } from "react-native";
+import { View, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import CustomText from "../customText/CustomText";
+import { useBoundStore } from "../../Store/useBoundStore";
 
 const CustomTextInput = ({
   title,
@@ -12,6 +13,7 @@ const CustomTextInput = ({
   keyboardType,
 }) => {
   const [errorMessage, setErrorMessage] = useState(null);
+  const mode = useBoundStore((state) => state.mode);
 
   useEffect(() => {
     errors.map((error) => {
@@ -31,6 +33,7 @@ const CustomTextInput = ({
     <View
       style={{
         flexGrow: 1,
+        backgroundColor: mode === "dark" ? "#0E0E0E" : "white",
       }}
     >
       <View
@@ -51,12 +54,22 @@ const CustomTextInput = ({
           </CustomText>
         )}
       </View>
-      <CustomText>{title}</CustomText>
+      <CustomText
+        style={{
+          color: mode === "dark" ? "#8A8A8A" : "black",
+        }}
+      >
+        {title}
+      </CustomText>
       <TextInput
         style={{
           borderBottomWidth: 1,
-          borderBottomColor: errorMessage ? "red" : "#999999",
-          color: errorMessage ? "red" : "black",
+          borderBottomColor: errorMessage
+            ? "red"
+            : mode === "dark"
+            ? "#666666"
+            : "#999999",
+          color: errorMessage ? "red" : mode === "dark" ? "white" : "black",
           fontFamily: "Nunito_600SemiBold",
           fontSize: 15,
           marginTop: "2%",

@@ -39,7 +39,6 @@ const AmntTag = ({ value, txt, onPress, disabled = false }) => {
           fontFamily: "Nunito_500Medium",
           fontSize: scale12 - 1,
           paddingLeft: "1%",
-          // color: "#757575",
           color: mode === "dark" ? "#8A8A8A" : "#757575",
         }}
       >

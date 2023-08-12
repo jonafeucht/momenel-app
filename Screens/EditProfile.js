@@ -24,6 +24,7 @@ import mime from "mime";
 let baseUrl = "https://api.momenel.com";
 
 const EditProfile = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const headerHeight = useHeaderHeight();
   const SetUserData = useBoundStore((state) => state.SetUserData);
   const [isLoading, setIsLoading] = useState(false);
@@ -362,24 +363,27 @@ const EditProfile = ({ navigation }) => {
       style={{
         flex: 1,
         justifyContent: "flex-end",
-        backgroundColor: "white",
+        backgroundColor: mode === "dark" ? "#0E0E0E" : "white",
       }}
     >
       {isLoading ? (
         <View
           style={{
             height: "100%",
-            backgroundColor: "white",
+            backgroundColor: mode === "dark" ? "black" : "white",
             alignItems: "center",
             justifyContent: "center",
             paddingBottom: headerHeight,
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator color={mode === "dark" ? "white" : "black"} />
         </View>
       ) : (
         <ScrollView
-          style={{ height: "100%", backgroundColor: "white" }}
+          style={{
+            height: "100%",
+            backgroundColor: mode === "dark" ? "#black" : "white",
+          }}
           keyboardDismissMode={"on-drag"}
           contentContainerStyle={{ flexGrow: 1 }}
         >
@@ -392,7 +396,7 @@ const EditProfile = ({ navigation }) => {
                 height: scaledSize,
                 width: scaledSize,
                 borderRadius: scaledSize / 2,
-                backgroundColor: "white",
+                backgroundColor: mode === "dark" ? "#0E0E0E" : "white",
                 alignItems: "center",
                 justifyContent: "center",
                 alignSelf: "center",
