@@ -9,6 +9,7 @@ import DeleteAccount from "../components/Settings/DeleteAccount";
 import BlockedAccounts from "../components/Settings/BlockedAccounts";
 import SupportScreen from "../components/Settings/SupportScreen";
 import InviteScreen from "../components/Settings/InviteScreen";
+import ThemeSettingScreen from "../components/Settings/ThemeSettingScreen";
 import { scale } from "../utils/Scale";
 import ChangeEmail from "../components/Settings/ChangeEmail";
 import ChangeBirthday from "../components/Settings/ChangeBirthday";
@@ -165,6 +166,19 @@ const SettingsStackNavigator = ({ navigation }) => {
         component={DeleteAccount}
         options={{
           headerTitle: "Delete Account",
+          headerShadowVisible: false,
+          headerBackTitle: "",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#1A1A1A" : "#F9F9F9",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="ThemeSettings"
+        component={ThemeSettingScreen}
+        options={{
+          headerTitle: "Theme",
           headerShadowVisible: false,
           headerBackTitle: "",
           headerTintColor: mode === "dark" ? "white" : "black",

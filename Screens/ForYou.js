@@ -30,35 +30,6 @@ const ForYou = ({ navigation, forYouRef }) => {
     fetchPosts();
   }, [from, to, isRefreshing]);
 
-  useEffect(() => {
-    console.log("mode", mode);
-  }, [mode]);
-
-  const removeModeFromStorage = async () => {
-    try {
-      await AsyncStorage.removeItem("mode");
-      setMode(null); // Reset the mode state
-    } catch (error) {
-      console.error("Failed to remove the mode from storage", error);
-    }
-  };
-  const setDark = async () => {
-    try {
-      await AsyncStorage.setItem("mode", "dark"); // or 'light'
-      setMode("dark"); // Reset the mode state
-    } catch (error) {
-      console.error("Failed to remove the mode from storage", error);
-    }
-  };
-  const setLight = async () => {
-    try {
-      await AsyncStorage.setItem("mode", "light"); // or 'light'
-      setMode("light"); // Reset the mode state
-    } catch (error) {
-      console.error("Failed to remove the mode from storage", error);
-    }
-  };
-
   const fetchNotificationsIntervalDelay = 120000;
   const fetchNotificationsCallback = useCallback(() => {
     fetchNotifications({ isRefreshing: true });
@@ -322,13 +293,6 @@ const ForYou = ({ navigation, forYouRef }) => {
             tintColor={mode === "dark" ? "white" : "black"}
           />
         }
-        ListHeaderComponent={() => (
-          <>
-            <Button title="reset" onPress={removeModeFromStorage} />
-            <Button title="Dark" onPress={setDark} />
-            <Button title="light" onPress={setLight} />
-          </>
-        )}
       />
     </View>
   );

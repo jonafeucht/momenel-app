@@ -36,6 +36,12 @@ const Settings = ({ navigation }) => {
         onPress={() => navigation.navigate("Invite")}
         mode={mode}
       />
+      <SettingsTab
+        icon={"md-phone-portrait"}
+        title="Theme"
+        onPress={() => navigation.navigate("ThemeSettings")}
+        mode={mode}
+      />
 
       <Pressable
         onPress={() => supabase.auth.signOut()}
