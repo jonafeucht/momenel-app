@@ -45,7 +45,7 @@ const DetachedBottomSheetWithScroll = (props) => {
         {...props}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
-        opacity={mode === "dark" ? 0.4 : 0.5}
+        opacity={mode === "dark" ? 0.7 : 0.5}
       />
     ),
     []
@@ -69,7 +69,7 @@ const DetachedBottomSheetWithScroll = (props) => {
           }}
           keyboardBlurBehavior="restore"
           backgroundStyle={{
-            backgroundColor: mode === "dark" ? "#212121" : "#ffffff",
+            backgroundColor: mode === "dark" ? "#2C2C2C" : "#ffffff",
           }}
           handleIndicatorStyle={{
             backgroundColor: mode === "dark" ? "#464646" : "#828282",

@@ -184,7 +184,6 @@ const PostHeader = ({
             paddingTop: 10,
             paddingBottom: insets.bottom + 15,
             paddingHorizontal: 20,
-            // backgroundColor: mode === "dark" ? "#1E1E1E" : "white",
           }}
         >
           {RouteName === "Profile" ? (
@@ -193,20 +192,19 @@ const PostHeader = ({
                 flexDirection: "row",
                 alignItems: "center",
                 width: "100%",
-                backgroundColor: mode === "dark" ? "#2A2A2A" : "#EAEAEA",
+                backgroundColor: mode === "dark" ? "#2C2C2C" : "#EAEAEA",
                 paddingVertical: 15,
                 paddingHorizontal: 18,
-
                 borderRadius: 12,
               }}
               onPress={() => onDeletePressWrapper()}
             >
-              <Ionicons name="trash-bin" size={20} color="red" />
+              <Ionicons name="trash-bin" size={20} color="#D32F2F" />
               <CustomText
                 style={{
                   fontSize: 16,
                   marginLeft: 10,
-                  color: "red",
+                  color: "#D32F2F",
                 }}
               >
                 Delete
@@ -218,7 +216,7 @@ const PostHeader = ({
                 flexDirection: "row",
                 alignItems: "center",
                 width: "100%",
-                backgroundColor: mode === "dark" ? "#303030" : "#EAEAEA",
+                backgroundColor: mode === "dark" ? "#2C2C2C" : "#EAEAEA",
                 paddingVertical: 15,
                 paddingHorizontal: 18,
                 marginTop: 10,
@@ -226,12 +224,12 @@ const PostHeader = ({
               }}
               onPress={() => onReportPressWrapper()}
             >
-              <Ionicons name="ios-flag" size={20} color="#ED0C0C" />
+              <Ionicons name="ios-flag" size={20} color="#D32F2F" />
               <CustomText
                 style={{
                   fontSize: 16,
                   marginLeft: 10,
-                  color: "#ED0C0C",
+                  color: "#D32F2F",
                 }}
               >
                 Report

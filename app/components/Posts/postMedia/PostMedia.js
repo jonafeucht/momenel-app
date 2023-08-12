@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Video } from "expo-av";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import { useBoundStore } from "../../../Store/useBoundStore";
 
 const ScreenWidth = Dimensions.get("window").width;
 
@@ -17,6 +18,7 @@ const PostMediaOne = ({
   username,
   blurhash,
 }) => {
+  const mode = useBoundStore((state) => state.mode);
   const video = useRef(null);
   const Iwidth = ScreenWidth - ScreenWidth * 0.1;
 
@@ -89,7 +91,7 @@ const PostMediaOne = ({
                 width: Iwidth,
                 height: height,
                 borderRadius: 3,
-                backgroundColor: "white",
+                backgroundColor: mode === "dark" ? "#000000" : "#ffffff",
                 flex: 1,
               }}
               positionMillis={0}
