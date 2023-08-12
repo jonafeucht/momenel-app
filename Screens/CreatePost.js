@@ -35,7 +35,7 @@ const triggersConfig = {
     allowedSpacesCount: 0,
     textStyle: {
       fontWeight: "bold",
-      color: "#7033FF",
+      color: "#875AEE",
     },
   },
   hashtag: {
@@ -44,12 +44,13 @@ const triggersConfig = {
     allowedSpacesCount: 0,
     textStyle: {
       fontWeight: "bold",
-      color: "#7033FF",
+      color: "#875AEE",
     },
   },
 };
 
 const CreatePost = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [isPostingSuccessful, setIsPostingSuccessful] = useState(false);
@@ -260,6 +261,9 @@ const CreatePost = ({ navigation }) => {
           style={{ marginRight: "1%" }}
         />
       ),
+      headerStyle: {
+        backgroundColor: mode === "dark" ? "black" : "#F9F9F9",
+      },
     });
   }, [navigation, textValue, content, isPosting, isPostingSuccessful]);
 
@@ -345,7 +349,7 @@ const CreatePost = ({ navigation }) => {
       style={{
         flex: 1,
         justifyContent: "flex-end",
-        backgroundColor: "white",
+        backgroundColor: mode === "dark" ? "#000" : "#fff",
       }}
     >
       <View
@@ -382,12 +386,19 @@ const CreatePost = ({ navigation }) => {
                 backgroundColor="#E1E1E1"
               />
             )}
-            <CustomText style={{ fontSize: scale(15) }}>@{username}</CustomText>
+            <CustomText
+              style={{
+                fontSize: scale(15),
+                color: mode === "dark" ? "#fff" : "#000",
+              }}
+            >
+              @{username}
+            </CustomText>
           </View>
           <View>
             <TextInput
               placeholder="What's happening?"
-              placeholderTextColor="#687684"
+              placeholderTextColor={mode === "dark" ? "#8A8A8A" : "#687684"}
               autoFocus={true}
               selectTextOnFocus={false}
               keyboardType="twitter"
@@ -400,6 +411,7 @@ const CreatePost = ({ navigation }) => {
                 marginBottom: "3%",
                 marginTop: "2%",
                 marginHorizontal: "4%",
+                color: mode === "dark" ? "#fff" : "#000",
               }}
               {...textInputProps}
             />
@@ -412,8 +424,18 @@ const CreatePost = ({ navigation }) => {
             )}
           </View>
         </ScrollView>
-        <Suggestions {...triggers.hashtag} onLayoutFunc={lay} pre={"#"} />
-        <Suggestions {...triggers.mention} onLayoutFunc={lay} pre={"@"} />
+        <Suggestions
+          {...triggers.hashtag}
+          onLayoutFunc={lay}
+          pre={"#"}
+          mode={mode}
+        />
+        <Suggestions
+          {...triggers.mention}
+          onLayoutFunc={lay}
+          pre={"@"}
+          mode={mode}
+        />
         <View
           style={{
             flexDirection: "row",
@@ -426,7 +448,7 @@ const CreatePost = ({ navigation }) => {
             bottom: isKeyboardVisible ? 0 : insets.bottom,
             width: "100%",
             zIndex: 1,
-            backgroundColor: "white",
+            backgroundColor: mode === "dark" ? "#000" : "#fff",
           }}
         >
           <View
@@ -436,15 +458,29 @@ const CreatePost = ({ navigation }) => {
             }}
           >
             <Pressable onPress={pickImage} style={{ marginRight: "15%" }}>
-              <Ionicons name="images" size={scale(18)} color="black" />
+              <Ionicons
+                name="images"
+                size={scale(18)}
+                color={mode === "dark" ? "#A9A9A9" : "#000"}
+              />
             </Pressable>
             <Pressable onPress={pickVideo}>
-              <Ionicons name="ios-videocam" size={scale(19)} color="black" />
+              <Ionicons
+                name="ios-videocam"
+                size={scale(19)}
+                color={mode === "dark" ? "#A9A9A9" : "#000"}
+              />
             </Pressable>
           </View>
           {isKeyboardVisible && (
             <Pressable onPress={Keyboard.dismiss}>
-              <CustomText>Done</CustomText>
+              <CustomText
+                style={{
+                  color: mode === "dark" ? "#A9A9A9" : "#000",
+                }}
+              >
+                Done
+              </CustomText>
             </Pressable>
           )}
         </View>

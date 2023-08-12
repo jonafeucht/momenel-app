@@ -44,7 +44,6 @@ const Media = ({ item, updateVideoDimensions }) => {
                 Math.ceil(scaledWidth(videoSize.width, videoSize.height)) ||
                 200,
               borderRadius: 3,
-              backgroundColor: "white",
             }}
             onPlaybackStatusUpdate={(status) => {
               setShowPauseIcon(!status.isPlaying);

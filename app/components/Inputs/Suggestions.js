@@ -7,7 +7,7 @@ import { supabase } from "../../lib/supabase";
 
 let baseUrl = "https://api.momenel.com";
 
-const Suggestions = ({ keyword, onSelect, onLayoutFunc, pre }) => {
+const Suggestions = ({ keyword, onSelect, onLayoutFunc, pre, mode }) => {
   const [suggestions, setSuggestions] = useState([]);
   useEffect(() => {
     getSuggestions();
@@ -56,37 +56,39 @@ const Suggestions = ({ keyword, onSelect, onLayoutFunc, pre }) => {
     return null;
   }
 
+  if (suggestions.length === 0) {
+    return null;
+  }
   return (
-    <View
+    <ScrollView
       style={{
         zIndex: 2,
         maxHeight: 200,
-        backgroundColor: "#DDDDDD",
+        backgroundColor: mode === "dark" ? "#4A4A4A" : "#DDDDDD",
         width: Dimensions.get("window").width,
         borderTopStartRadius: 10,
         borderTopEndRadius: 10,
       }}
-      onLayout={(event) => {
-        onLayoutFunc(event.nativeEvent.layout.height);
-      }}
+      keyboardShouldPersistTaps="always"
     >
-      <ScrollView keyboardShouldPersistTaps="always">
-        {suggestions.map((one) => (
-          <Pressable
-            key={one.id}
-            onPress={() =>
-              customOnpress({ ...one, name: one.hashtag || one.username })
-            } //change name to hashtag or whatever based on hashtag
-            style={{ padding: 12 }}
-          >
-            <CustomText style={{ color: "black" }}>
-              {pre}
-              {one.hashtag || one.username}
-            </CustomText>
-          </Pressable>
-        ))}
-      </ScrollView>
-    </View>
+      {suggestions.map((one) => (
+        <Pressable
+          key={one.id}
+          onPress={() =>
+            customOnpress({ ...one, name: one.hashtag || one.username })
+          }
+          style={{
+            padding: 12,
+            backgroundColor: mode === "dark" ? "#4A4A4A" : "#EAEAEA",
+          }}
+        >
+          <CustomText style={{ color: mode === "dark" ? "#E0E0E0" : "black" }}>
+            {pre}
+            {one.hashtag || one.username}
+          </CustomText>
+        </Pressable>
+      ))}
+    </ScrollView>
   );
 };
 export default Suggestions;

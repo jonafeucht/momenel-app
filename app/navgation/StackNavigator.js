@@ -15,10 +15,12 @@ import Profile from "../../Screens/Profile";
 import EditProfile from "../../Screens/EditProfile";
 import SettingsStackNavigator from "./SettingsStackNavigator";
 import SinglePost from "../../Screens/SinglePost";
+import { useBoundStore } from "../Store/useBoundStore";
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = ({}) => {
+  const mode = useBoundStore((state) => state.mode);
   const navigation = useNavigation();
   return (
     <Stack.Navigator
@@ -74,7 +76,11 @@ const StackNavigator = ({}) => {
               }}
               onPress={() => navigation.goBack()}
             >
-              <Ionicons name="close" size={24} color="black" />
+              <Ionicons
+                name="close"
+                size={24}
+                color={mode === "dark" ? "white" : "black"}
+              />
             </Pressable>
           ),
           headerRight: () => (
