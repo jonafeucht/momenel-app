@@ -5,10 +5,12 @@ import { supabase } from "../app/lib/supabase";
 import Post from "../app/components/Posts/Post";
 import { FlashList } from "@shopify/flash-list";
 import * as Haptics from "expo-haptics";
+import { useBoundStore } from "../app/Store/useBoundStore";
 
 let baseUrl = "https://api.momenel.com";
 
 const SinglePost = ({ navigation }) => {
+  const mode = useBoundStore((state) => state.mode);
   const { params } = useRoute();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -211,10 +213,13 @@ const SinglePost = ({ navigation }) => {
         style={{
           flex: 1,
           justifyContent: "center",
-          backgroundColor: "white",
+          backgroundColor: mode === "light" ? "white" : "black",
         }}
       >
-        <ActivityIndicator size="small" color="black" />
+        <ActivityIndicator
+          size="small"
+          color={mode === "light" ? "black" : "white"}
+        />
       </View>
     );
   }
@@ -223,7 +228,7 @@ const SinglePost = ({ navigation }) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: mode === "light" ? "white" : "black",
         justifyContent: "center",
       }}
     >

@@ -142,7 +142,10 @@ const StackNavigator = ({}) => {
           headerBackTitle: "",
           headerTitle: "",
           headerShadowVisible: false,
-          headerTintColor: "black",
+          headerTintColor: mode === "dark" ? "white" : "black",
+          headerStyle: {
+            backgroundColor: mode === "dark" ? "#0E0E0E" : "#F9F9F9",
+          },
         }}
       />
 
