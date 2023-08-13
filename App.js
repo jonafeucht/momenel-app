@@ -8,7 +8,7 @@ import StackNavigator from "./app/navgation/StackNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PortalProvider } from "@gorhom/portal";
 import { supabase } from "./app/lib/supabase";
 import Auth from "./Screens/Auth";
@@ -19,6 +19,14 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 
 let baseUrl = "https://api.momenel.com";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 
 export default function App() {
   const mode = useBoundStore((state) => state.mode);
@@ -37,6 +45,30 @@ export default function App() {
   );
   const SetUserData = useBoundStore((state) => state.SetUserData);
   const username = useBoundStore((state) => state.username);
+
+  //* notifications
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        console.log("here");
+        // setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        // console.log("res", response);
+      });
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   useEffect(() => {
     fetchModeFromStorage();

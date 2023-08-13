@@ -13,7 +13,6 @@ const Home = ({ navigation, followingRef }) => {
   const mode = useBoundStore((state) => state.mode);
   const [postsData, setPostsData] = useState([]);
   const [showFooter, setShowFooter] = useState(true);
-  const fetchNotifications = useBoundStore((state) => state.fetchNotifications);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(10);
@@ -21,26 +20,6 @@ const Home = ({ navigation, followingRef }) => {
   useEffect(() => {
     fetchPosts();
   }, [from, to, isRefreshing]);
-
-  const fetchNotificationsIntervalDelay = 120000;
-  const fetchNotificationsCallback = useCallback(() => {
-    fetchNotifications({ isRefreshing: true });
-  }, [fetchNotifications]);
-
-  useEffect(() => {
-    // Initial fetch on render
-    fetchNotifications({ isRefreshing: true });
-
-    // Fetch notifications every 2 minutes
-    const intervalId = setInterval(
-      fetchNotificationsCallback,
-      fetchNotificationsIntervalDelay
-    );
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
 
   const fetchPosts = async () => {
     if (!showFooter && from !== 0) {

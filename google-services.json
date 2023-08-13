@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1071916021359",
+    "project_id": "momenel-social",
+    "storage_bucket": "momenel-social.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071916021359:android:4c10cb18e6bf17c07a3f9a",
+        "android_client_info": {
+          "package_name": "com.momenel.privacyfirstsocialnetwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071916021359-1qka35rg5dibbpq9flhg9jio7imh61ck.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFC3Ibt4oiZSawOecBLU7RykJMVkBl4B8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071916021359-1qka35rg5dibbpq9flhg9jio7imh61ck.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
