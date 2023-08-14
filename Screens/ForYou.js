@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  Alert,
-  Button,
-  RefreshControl,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, RefreshControl, View } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 import { useBoundStore } from "../app/Store/useBoundStore";
 import Post from "../app/components/Posts/Post";
@@ -19,7 +13,6 @@ let baseUrl = "https://api.momenel.com";
 
 const ForYou = ({ navigation, forYouRef }) => {
   const mode = useBoundStore((state) => state.mode);
-  const setMode = useBoundStore((state) => state.setMode);
   const [postsData, setPostsData] = useState([]);
   const [showFooter, setShowFooter] = useState(true);
   const fetchNotifications = useBoundStore((state) => state.fetchNotifications);
@@ -28,14 +21,32 @@ const ForYou = ({ navigation, forYouRef }) => {
   const [to, setTo] = useState(15);
   //
   //* notifications
-  const [expoPushToken, setExpoPushToken] = useState("");
-
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => {
-      console.log(token);
-      setExpoPushToken(token);
+    registerForPushNotificationsAsync().then(async (token) => {
+      await postNotificationToken(token);
     });
   }, []);
+
+  const postNotificationToken = async (token) => {
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        return navigation.navigate("Login");
+      }
+      const response = await fetch(`${baseUrl}/user/updateToken`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data.session.access_token}`,
+        },
+        body: JSON.stringify({
+          token,
+        }),
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   useEffect(() => {
     fetchPosts();
@@ -279,9 +290,6 @@ const ForYou = ({ navigation, forYouRef }) => {
     return item.type + item.id;
   };
 
-  const unsubscribeNoti = async () => {
-    Notifications.setBadgeCountAsync(0);
-  };
   return (
     <View
       style={{
@@ -335,14 +343,12 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== "granted") {
-      // alert("Failed to get push token for push notification!");
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    // console.log(token);
   } else {
     alert("Must use physical device for Push Notifications");
   }
-
   return token;
 }

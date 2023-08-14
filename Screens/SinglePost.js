@@ -213,12 +213,12 @@ const SinglePost = ({ navigation }) => {
         style={{
           flex: 1,
           justifyContent: "center",
-          backgroundColor: mode === "light" ? "white" : "black",
+          backgroundColor: mode === "dark" ? "black" : "white",
         }}
       >
         <ActivityIndicator
           size="small"
-          color={mode === "light" ? "black" : "white"}
+          color={mode === "dark" ? "black" : "white"}
         />
       </View>
     );
@@ -228,7 +228,7 @@ const SinglePost = ({ navigation }) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: mode === "light" ? "white" : "black",
+        backgroundColor: mode === "dark" ? "black" : "white",
         justifyContent: "center",
       }}
     >

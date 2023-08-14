@@ -15,7 +15,6 @@ import Auth from "./Screens/Auth";
 import { useBoundStore } from "./app/Store/useBoundStore";
 import SignupStackNavigator from "./app/navgation/SignupStackNavigator";
 import CustomText from "./app/components/customText/CustomText";
-import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 
 let baseUrl = "https://api.momenel.com";

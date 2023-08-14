@@ -14,6 +14,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import CustomText from "../app/components/customText/CustomText";
 import { RelativeTime } from "../app/utils/RelativeTime";
 import { useBoundStore } from "../app/Store/useBoundStore";
+import * as NotificationsExpo from "expo-notifications";
 
 const Notifications = ({ navigation }) => {
   const mode = useBoundStore((state) => state.mode);
@@ -28,6 +29,7 @@ const Notifications = ({ navigation }) => {
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
+    NotificationsExpo.setBadgeCountAsync(0);
     setIsFetching(true);
     if (notifications.length === 0) {
       fetchNotificationsWrapper({ isRefreshing: true });

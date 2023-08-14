@@ -232,7 +232,13 @@ const Comment = ({
         >
           <Pressable
             style={{
-              backgroundColor: highlight ? "#F2F2F2" : "white",
+              backgroundColor: highlight
+                ? mode === "dark"
+                  ? "#2A2A2A"
+                  : "#F2F2F2"
+                : mode === "dark"
+                ? "black"
+                : "white",
               width: 34,
               height: 34,
               borderRadius: 50,
