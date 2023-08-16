@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Pressable,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import { Image } from "expo-image";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -23,8 +24,11 @@ import StatusOverlay from "../app/components/StatusOverlay";
 import { supabase } from "../app/lib/supabase";
 import { RefreshControl } from "react-native-gesture-handler";
 import CustomText from "../app/components/customText/CustomText";
+import Post from "../app/components/Posts/Post";
+import * as Haptics from "expo-haptics";
 
-let baseUrl = "https://api.momenel.com";
+// let baseUrl = "https://api.momenel.com";
+let baseUrl = "https://8e63-69-114-29-31.ngrok-free.app";
 
 const Comments = ({ route, navigation }) => {
   const mode = useBoundStore((state) => state.mode);
@@ -44,6 +48,7 @@ const Comments = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
   const [showFooter, setShowFooter] = useState(true);
   const textInputRef = useRef(null);
+  const [post, setPost] = useState({});
 
   useEffect(() => {
     setIsFirst(true);
@@ -114,19 +119,26 @@ const Comments = ({ route, navigation }) => {
     }
 
     // fetch comments from api
-    let response = await fetch(`${baseUrl}/comment/${postId}/${from}/${to}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${data.session.access_token}`,
-      },
-    });
+    let response = await fetch(
+      `${baseUrl}/comment/v2/${postId}/${from}/${to}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data.session.access_token}`,
+        },
+      }
+    );
 
     if (response.status !== 200) {
       return alert("Something went wrong");
     }
+    response = await response.json();
 
-    let comments = await response.json();
+    let comments = response.comments;
+    if (response.post.id) {
+      setPost(response.post);
+    }
     setShowFooter(false);
     setIsRefreshing(false);
     setComments((prevComments) => {
@@ -262,6 +274,117 @@ const Comments = ({ route, navigation }) => {
 
   const keyExtractor = useCallback((item) => item.id, []);
 
+  // show post
+  const renderHeader = useCallback(
+    ({}) => {
+      if (!post.id) {
+        return null;
+      }
+      return (
+        <Post
+          height={post?.content[0]?.height || 0}
+          width={post?.content[0]?.width || 0}
+          isPublished={true}
+          navigation={navigation}
+          postId={post?.id}
+          index={0}
+          likes={post?.likes[0].count}
+          comments={post?.comments[0].count}
+          reposts={post?.reposts[0].count}
+          profileUrl={post.user?.profile_url}
+          username={post?.user?.username}
+          name={post?.user?.name}
+          createdAt={post.created_at}
+          posts={post?.content ? post.content : []}
+          caption={post?.caption}
+          handleLike={handleLike}
+          handleRepost={handleRepost}
+          isLiked={post.isLiked}
+          isReposted={post.isReposted}
+        />
+      );
+    },
+    [post]
+  );
+
+  const handleLike = async (index, isLiked, postId) => {
+    const { data: session, error } = await supabase.auth.getSession();
+    if (error) {
+      navigation.navigate("Login");
+    }
+
+    let updatedPost = {};
+    if (post.isLiked === true) {
+      updatedPost = {
+        ...post,
+        likes: [{ count: post.likes[0].count - 1 }],
+        isLiked: false,
+      };
+    } else {
+      updatedPost = {
+        ...post,
+        likes: [{ count: post.likes[0].count + 1 }],
+        isLiked: true,
+      };
+    }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setPost(updatedPost);
+
+    // send like to the backend
+    let response = await fetch(`${baseUrl}/like/${postId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.session.access_token}`,
+      },
+    });
+    // if error
+    if (!response.ok) {
+      Alert.alert("Error", "Something went wrong");
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      return;
+    }
+  };
+
+  const handleRepost = async (index, isReposted, postId) => {
+    const { data: session, error } = await supabase.auth.getSession();
+    if (error) {
+      navigation.navigate("Login");
+    }
+    let updatedPost = {};
+    if (post.isReposted === true) {
+      updatedPost = {
+        ...post,
+        reposts: [{ count: post.reposts[0].count - 1 }],
+        isReposted: false,
+      };
+    } else {
+      updatedPost = {
+        ...post,
+        reposts: [{ count: post.reposts[0].count + 1 }],
+        isReposted: true,
+      };
+    }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setPost(updatedPost);
+
+    // send repost to the backend
+    let response = await fetch(`${baseUrl}/repost/${postId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.session.access_token}`,
+      },
+    });
+
+    // if error
+    if (!response.ok) {
+      Alert.alert("Error", "Something went wrong");
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      return;
+    }
+  };
+
   return (
     <View
       style={[
@@ -286,12 +409,16 @@ const Comments = ({ route, navigation }) => {
           data={comments}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
+          ListHeaderComponent={renderHeader}
+          ListHeaderComponentStyle={{
+            marginBottom: 10,
+            borderBottomWidth: 1,
+            borderBottomColor: mode === "dark" ? "#333" : "#ccc",
+          }}
           ListEmptyComponent={() => {
             return (
               <View
                 style={{
-                  height: Dimensions.get("window").height * 0.75,
-                  justifyContent: "center",
                   alignItems: "center",
                   alignSelf: "center",
                 }}
