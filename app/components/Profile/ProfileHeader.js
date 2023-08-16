@@ -64,13 +64,34 @@ const ProfileHeader = ({
     }
   };
 
+  const isValidUrl = (url) => {
+    const pattern = new RegExp(
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name and extension
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?" + // port
+        "(\\/[-a-z\\d%_.~+]*)*" + // path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // fragment locator
+    return pattern.test(url);
+  };
+
   const handleLinkPressAsync = async (url) => {
-    if (url.startsWith("https://www.")) {
-      await WebBrowser.openBrowserAsync(url);
-    } else if (url.startsWith("www.")) {
-      await WebBrowser.openBrowserAsync("https://" + url);
-    } else {
-      await WebBrowser.openBrowserAsync("https://www." + url);
+    try {
+      if (isValidUrl(url)) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+          url = "https://" + url;
+        }
+        const result = await WebBrowser.openBrowserAsync(url);
+        return result;
+      } else {
+        throw new Error("Invalid URL");
+      }
+    } catch (error) {
+      console.error("An error occurred while opening the URL", error);
+      throw error;
     }
   };
   const scaledSize = useMemo(() => scale(95), []);
