@@ -27,8 +27,7 @@ import CustomText from "../app/components/customText/CustomText";
 import Post from "../app/components/Posts/Post";
 import * as Haptics from "expo-haptics";
 
-// let baseUrl = "https://api.momenel.com";
-let baseUrl = "https://8e63-69-114-29-31.ngrok-free.app";
+let baseUrl = "https://api.momenel.com";
 
 const Comments = ({ route, navigation }) => {
   const mode = useBoundStore((state) => state.mode);

@@ -19,43 +19,46 @@ const StructuredText = memo(
         shouldAddMore = false;
       }
 
-      let mentList = tempStr.match(/(https?:\/\/\S+|www\.\S+|@\S+|#\S+)/gi);
+      let lastIndex = 0;
 
-      if (mentList == null) {
-        if (shouldAddMore) {
-          result.push(tempStr);
+      const regex = /(https?:\/\/\S+|www\.\S+|@\S+|#\S+|\*\*(.*?)\*\*)/gi;
+      let match;
+
+      while ((match = regex.exec(tempStr)) !== null) {
+        const matchedText = match[0];
+        const plainText = tempStr.substring(lastIndex, match.index);
+
+        if (plainText) {
+          result.push(plainText);
+        }
+
+        if (matchedText.startsWith("**") && matchedText.endsWith("**")) {
+          result.push(
+            <CustomText
+              key={match.index}
+              style={{ fontFamily: "Nunito_900Black", fontSize: 20 }}
+            >
+              {matchedText.replace(/\*\*/g, "")}
+            </CustomText>
+          );
+        } else {
           result.push(
             <Mention
-              key={"more"}
-              mentionHashtagColor={"gray"}
+              key={match.index}
+              mentionHashtagColor={mode === "dark" ? "#986BFF" : "#8759F2"}
               mentionHashtagPress={mentionHashtagPress}
-              text={"more"}
+              text={matchedText}
               style={style}
             />
           );
-          return result;
-        } else {
-          return [tempStr];
         }
+
+        lastIndex = match.index + matchedText.length;
       }
 
-      let i = 0;
-      for (const ment of mentList) {
-        i++;
-        result.push(tempStr.substring(0, tempStr.indexOf(ment)));
-        result.push(
-          <Mention
-            key={i}
-            mentionHashtagColor={mode === "dark" ? "#986BFF" : "#8759F2"}
-            mentionHashtagPress={mentionHashtagPress}
-            text={ment}
-            style={style}
-          />
-        );
-        tempStr = tempStr.substring(tempStr.indexOf(ment) + ment.length);
-      }
-      if (tempStr.length > 0) {
-        result.push(tempStr);
+      const remainingText = tempStr.substring(lastIndex);
+      if (remainingText) {
+        result.push(remainingText);
       }
 
       if (shouldAddMore) {
@@ -67,6 +70,7 @@ const StructuredText = memo(
           />
         );
       }
+
       return result;
     };
 

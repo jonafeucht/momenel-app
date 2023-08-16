@@ -52,7 +52,6 @@ export default function App() {
   useEffect(() => {
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        console.log("here");
         // setNotification(notification);
       });
 
@@ -133,6 +132,8 @@ export default function App() {
       const storedMode = await AsyncStorage.getItem("mode");
       if (storedMode !== null) {
         setMode(storedMode);
+      } else {
+        setMode("dark");
       }
     } catch (e) {}
   };
