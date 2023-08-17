@@ -35,6 +35,7 @@ const Profile = ({ navigation }) => {
   const [showFooter, setShowFooter] = useState(true);
   const [refresher, setRefresher] = useState(1); //! used to force upadte
   const SetUserData = useBoundStore((state) => state.SetUserData);
+  const [username, setUsername] = useState();
 
   useEffect(() => {
     setShowFooter(true);
@@ -42,8 +43,15 @@ const Profile = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
+    if (RouteParams?.id !== username) {
+      setFrom(0);
+      setTo(20);
+      setData([]);
+      setisLoading(true);
+    }
+    setUsername(RouteParams?.id);
     fetchPosts();
-  }, [from, to, isRefreshing, refresher]);
+  }, [from, to, isRefreshing, refresher, RouteParams?.id]);
 
   const fetchPosts = async () => {
     setShowFooter(true);
