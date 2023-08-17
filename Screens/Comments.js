@@ -2,7 +2,6 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Dimensions,
   Keyboard,
   LayoutAnimation,
   ActivityIndicator,
@@ -384,6 +383,12 @@ const Comments = ({ route, navigation }) => {
     }
   };
 
+  const onEmojiSelected = (emoji) => {
+    onChangeText((prev) => prev + emoji);
+    // show keyboard
+    textInputRef.current.focus();
+  };
+
   return (
     <View
       style={[
@@ -473,16 +478,42 @@ const Comments = ({ route, navigation }) => {
         style={{
           justifyContent: "flex-end",
           backgroundColor: mode === "dark" ? "#0E0E0E" : "#fff",
+          borderTopWidth: 1,
+          borderTopColor: mode === "dark" ? "#2A2A2A" : "#E5E5E5",
         }}
       >
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
+            paddingHorizontal: "5%",
+            width: "100%",
+            paddingTop: "1%",
+          }}
+        >
+          <Pressable onPress={() => onEmojiSelected("❤️")}>
+            <CustomText>❤️</CustomText>
+          </Pressable>
+          <Pressable onPress={() => onEmojiSelected("😂")}>
+            <CustomText>😂</CustomText>
+          </Pressable>
+          <Pressable onPress={() => onEmojiSelected("🔥")}>
+            <CustomText>🔥</CustomText>
+          </Pressable>
+          <Pressable onPress={() => onEmojiSelected("😍")}>
+            <CustomText>😍</CustomText>
+          </Pressable>
+          <Pressable onPress={() => onEmojiSelected("💜")}>
+            <CustomText>💜</CustomText>
+          </Pressable>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
             paddingHorizontal: "3%",
             marginBottom: isKeyboardVisible ? 10 : insets.bottom + 5,
-            borderTopWidth: 1,
-            borderTopColor: mode === "dark" ? "#2A2A2A" : "#E5E5E5",
             paddingTop: "2%",
             backgroundColor: mode === "dark" ? "#0E0E0E" : "#fff",
           }}
