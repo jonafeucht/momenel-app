@@ -7,12 +7,10 @@ import {
   Pressable,
   View,
 } from "react-native";
-
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../app/components/customText/CustomText";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinearGradientButton from "../app/components/Buttons/LinearGradientButton";
-import StructuredText from "../app/components/Posts/StructuredText";
 import PaginationDot from "../app/components/Posts/PaginationDot";
 import DetachedBottomSheet from "../app/components/BottomFlatSheet/DetachedBottomSheet";
 import SignIn from "../app/components/auth/SignIn";
@@ -194,13 +192,9 @@ const Auth = () => {
               paddingBottom: 11.4,
             }}
           >
-            <StructuredText
-              mentionHashtagColor={"red"}
-              numberOfLines={4}
-              style={{ color: "#535353", fontSize: 20 }}
-            >
+            <CustomText style={{ color: "black", fontSize: 18 }}>
               {item.caption}
-            </StructuredText>
+            </CustomText>
           </View>
         </View>
       </View>
