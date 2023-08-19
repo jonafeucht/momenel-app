@@ -2,7 +2,7 @@
   "expo": {
     "name": "Momenel",
     "slug": "privacy-first-social-network",
-    "version": "1.0.2", //android 1.0.3 //ios 1.0.2
+    "version": "2", //android 1.0.3 //ios 1.0.2
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "privacy": "unlisted",
@@ -20,7 +20,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.momenel.privacyfirstsocialnetwork"
+      "bundleIdentifier": "com.momenel.privacyfirstsocialnetwork",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
