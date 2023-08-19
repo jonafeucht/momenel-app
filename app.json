@@ -2,7 +2,7 @@
   "expo": {
     "name": "Momenel",
     "slug": "privacy-first-social-network",
-    "version": "2", //android 1.0.3 //ios 1.0.2
+    "version": "2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "privacy": "unlisted",
@@ -28,7 +28,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 4,
+      "versionCode": 5,
       "package": "com.momenel.privacyfirstsocialnetwork",
       "googleServicesFile": "./google-services.json"
     },
