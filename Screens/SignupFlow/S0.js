@@ -59,7 +59,10 @@ const S0 = ({ navigation }) => {
 
   const getAge = (dateOfBirth) => {
     const today = new Date();
-    const birthDate = new Date(dateOfBirth);
+
+    const [year, month, day] = dateOfBirth.split("/").map(Number);
+    const birthDate = new Date(year, month - 1, day); // month is 0-indexed in JavaScript
+
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
 
@@ -69,7 +72,7 @@ const S0 = ({ navigation }) => {
     ) {
       age--;
     }
-
+    console.log(age);
     return age;
   };
 
