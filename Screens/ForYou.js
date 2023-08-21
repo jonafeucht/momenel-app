@@ -346,7 +346,11 @@ async function registerForPushNotificationsAsync() {
     if (finalStatus !== "granted") {
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
+    token = (
+      await Notifications.getExpoPushTokenAsync({
+        projectId: "45a1b78d-b958-4078-9413-4e1dfd455925",
+      })
+    ).data;
     alert(token);
   } else {
     alert("Must use physical device for Push Notifications");
