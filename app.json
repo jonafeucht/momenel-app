@@ -2,10 +2,10 @@
   "expo": {
     "name": "Momenel",
     "slug": "privacy-first-social-network",
-    "version": "2",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "privacy": "unlisted",
+    "privacy": "public",
     "userInterfaceStyle": "automatic",
     "description": "Momenel - Your Data-Free, Open Source Social.",
     "splash": {

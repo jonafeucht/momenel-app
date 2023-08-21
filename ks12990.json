@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "pc-api-5212227636289464309-778",
+  "private_key_id": "33bca0efe6ead6158ea8a4e35ee1661f77853deb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDZslAYfsNYxIGZ\ncsnzWfFe7QDsBI4i3l0s3SGzG3D38lQczOMjZ25OUBcJBTxHq+7lr5OQnQesnW3J\n5OGE+BylcVzH0tHVHlqgL+jfqeOH/2y85N+9B0gXc3V1p4KLSxZGtGEEbJjB8Vw1\n05xBXlOGvXnsJwRc3/4m07BJ4CaJWtN+ckanbaLdth8SwjxcM8nqSJI1RSjvBhU2\n4bpsUFmIPuIEbrIwAugCaCNGjYgeO2dcKvROwyM/I8+gVs7Hsc4yERjUgqiebEzp\n+QbwlTF8AisyQNClacYoP59jxpCr715LBPVVgv0CSdTB4M2BFpyQsI0+SPCPMsQr\nOHgMUPXpAgMBAAECggEACqKnPpcc0I6jHT3KJ3kmrWJLR/yN/B6cczdncNJfocFl\nQhXxZ9ajATDw+ygWEpNQA8kg3rEJQbHcPf+QU/hyH9QKuhlu1mhZ+Zb1m823N7rv\nE0hkNN4w87JYk/On0UnNEA26aqaqjNkPjfKlYN0sm/nQRcz/LdFkn316kJVilJW0\nCZqLtgMaDWArbIDBc0P4ndekPtK37FiG9DuEfKks8j1gvixm5GA+hangtFMnaP+p\ng5gtS+WIGA5150zJcLG+xF2STN+I6q+BLsGYIVBMXMJHwZpJsRA8qioybDFgrHkA\n962hz0noDelKixw+zkFI1bVxXmdchbCy3Gee4D8IPQKBgQDytQ3f6Dg/F3cCFsu4\nXN8j3pOAbZEK9GawQUmwE3UoEU0Bqb94NEDiD6SjRpOx6xll3pNfE/ZbMe8GklwJ\n3GLKQwdwOFZoWhTL7KljnW0HVi2jd8on2cVgs7Y8mmJ7r+VoUiHI6/QIi7U1O2rx\nMIEnu6P48p/XYWyQYI1oebGjjQKBgQDlnpbExVcWDwdrcpBQtCh2U6W1+R6UROfu\nQ3QfXIBQeXUgQVOmveF+gn46e1HeqbPD3R/lqOnYp8wbFsJw2L51H3vxX+tDbXcy\nc5qvoB7bC+SZpd8J6g0e6/FDF8OZtDQ49gVgMLtxcw4KVa8YlPBwfsEN69rB0ovj\n3fqno+Z2zQKBgQDWCDheFmlTqhu26edpg+z7stKc1QKtiG3uTQTwk5gjZ25jYxCI\nrnvxXx4vJpQkuFDDdw67L912+ofxYaxsvb8Y4xdyLRx2Fcp1MxUF1dRKPgMtPvw1\nPGRFLPYuZ28l6C4EWzmT+BBSYPHCKc3bOI0NPvoRFdVDmJSmlZ7eXUL8GQKBgHyH\n2O7Ys9VTy0tbs6cBPhyGWw3pEMuK31paHOVRTonWhU47/7kjq+LntLvU297tnH/y\nMfVk+YY14r0iR8vZ0NlGfPq4cah8+rNS/SaYqYNU3OLzkZYX6IvHnG4tujhnAheO\nXfYAF/h8VLYIKFElnYz1QZBiRJ7vqEypu+IlQr1VAoGBAKkMBac+9f6ndRTcN/wQ\nZrtiZYgsNuccOIVtY27stSersWFjMzFJ744jQ/u9iCJ06uuLbBWlhWSrW0djI34l\nJY2KoEgURJKYj5YVR3xRFl7en/mBMjlc0b973pBVUbuNs2Y559G8FBslQ63MQU88\n/NH6Dj7wGJpicS0vet7crOKA\n-----END PRIVATE KEY-----\n",
+  "client_email": "expo-momenel-social@pc-api-5212227636289464309-778.iam.gserviceaccount.com",
+  "client_id": "108301182533872200422",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/expo-momenel-social%40pc-api-5212227636289464309-778.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -29,6 +29,7 @@ const ForYou = ({ navigation, forYouRef }) => {
 
   const postNotificationToken = async (token) => {
     try {
+      console.log("token", token);
       const { data, error } = await supabase.auth.getSession();
       if (error) {
         return navigation.navigate("Login");
@@ -346,7 +347,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    // console.log(token);
+    alert(token);
   } else {
     alert("Must use physical device for Push Notifications");
   }
