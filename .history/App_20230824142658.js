@@ -18,6 +18,7 @@ import CustomText from "./app/components/customText/CustomText";
 import * as Notifications from "expo-notifications";
 
 let baseUrl = "https://api.momenel.com";
+// test2
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
